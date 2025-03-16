@@ -27,7 +27,7 @@ export default function ThemeSwitcher() {
   const updateBackground = (newTheme: string) => {
     document.body.style.background =
       newTheme === "light"
-        ? "linear-gradient(135deg, #E0E0E0 0%, #D6D6D6 100%)"
+        ? "linear-gradient(135deg, #E0E0E0 0%, #E0E0E0 100%)"
         : "";
   };
 

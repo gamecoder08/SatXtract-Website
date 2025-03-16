@@ -2,6 +2,7 @@ import React from "react";
 import ThemeButton from "../components/ThemeButton";
 import ModelSelect from "./components/modelSelect";
 import MapContent from "./components/mapContent";
+import ResultContent from "./components/resultContent";
 
 const mainPage = () => {
   return (
@@ -22,6 +23,9 @@ const mainPage = () => {
           <MapContent />
         </div>
       </div>
+      <div className="flex flex-col md:flex-row items-start gap-105 mt-35 ml-165">
+          <ResultContent />
+        </div>
     </main>
   );
 };
