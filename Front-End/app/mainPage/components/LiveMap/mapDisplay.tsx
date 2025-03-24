@@ -3,6 +3,7 @@ import * as React from "react";
 import { useState, useRef } from "react";
 import { Map, MapRef, MapStyle } from "@vis.gl/react-maplibre";
 import "maplibre-gl/dist/maplibre-gl.css";
+import axios from "axios";
 
 const MAP_STYLE: MapStyle = {
   version: 8,
@@ -49,7 +50,7 @@ const MapDisplay = () => {
 
       mapRef.current?.flyTo({
         center: [parseFloat(lon), parseFloat(lat)],
-        zoom: 10,
+        zoom: 13,
         essential: true,
       });
     } else {
@@ -68,6 +69,27 @@ const MapDisplay = () => {
     const mapUrl = `https://static-maps.yandex.ru/1.x/?ll=${lon},${lat}&z=${zoom}&l=sat&size=650,450`;
 
     window.open(mapUrl, "_blank"); // Open in new tab
+  };
+
+  const sendLocationData = async () => {
+    if (!mapRef.current) return;
+
+    const center = mapRef.current.getCenter();
+    const zoom = Math.round(mapRef.current.getZoom()); // Convert to integer
+    const lat = center.lat.toFixed(6);
+    const lon = center.lng.toFixed(6);
+
+    // Delay sending data by 15 seconds
+    setTimeout(async () => {
+      // Send data to the backend
+      try {
+        await axios.post("/api/sendMapData", { lat, lon, zoom });
+        console.log("Data sent successfully");
+      } catch (error) {
+        console.error(error);
+        console.log("Error sending data");
+      }
+    }, 3000); // 3000 milliseconds = 3 seconds delay... to let animation complete
   };
 
   return (
@@ -107,10 +129,13 @@ const MapDisplay = () => {
 
       {/* Static Map Button */}
       <button
-        className="mb-4 bg-blue-500 text-white p-2 rounded shadow"
-        onClick={getStaticMap}
+        className="mb-4 p-2 rounded mt-2 border-2 border-gray-300 hover:shadow-md"
+        onClick={() => {
+          getStaticMap();
+          sendLocationData();
+        }}
       >
-        Download Static Map
+        View Map
       </button>
     </div>
   );

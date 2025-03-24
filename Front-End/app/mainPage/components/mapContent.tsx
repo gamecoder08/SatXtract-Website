@@ -14,7 +14,7 @@ const mapContent = () => {
           className="tab"
           aria-label="Live Map"
         />
-        <div className="tab-content bg-base-100 border-base-300 p-6 w-full">
+        <div className="tab-content bg-base-100 border-base-300 p-6 w-full p-7 justify-between items-center">
           <MapDisplay />
         </div>
 
