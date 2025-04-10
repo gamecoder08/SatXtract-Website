@@ -5,8 +5,17 @@ import UhiImages from "./uhiImages";
 
 const uhiDisplay = () => {
   return (
-    <div className="flex flex-col md:flex-row items-start gap-10">
-      <figure className="diff aspect-16/9" tabIndex={0}>
+    <div className="flex flex-col items-center justify-center ">
+      <div className="flex flex-row gap-20">
+        <select defaultValue="UHI Indices" className="select">
+          <option disabled={true}>UHI Indices</option>
+          <option>LST</option>
+          <option>LSE</option>
+          <option>NDVI</option>
+        </select>
+        <Calender />
+      </div>
+      <figure className="diff aspect-16/9 max-w-[600px]" tabIndex={0}>
         <div className="diff-item-1" role="img">
           <UhiImages />
         </div>
@@ -18,15 +27,6 @@ const uhiDisplay = () => {
         </div>
         <div className="diff-resizer"></div>
       </figure>
-      <div className="flex flex-col gap-6">
-        <select defaultValue="UHI Indices" className="select">
-          <option disabled={true}>UHI Indices</option>
-          <option>LST</option>
-          <option>LSE</option>
-          <option>NDVI</option>
-        </select>
-        <Calender />
-      </div>
     </div>
   );
 };

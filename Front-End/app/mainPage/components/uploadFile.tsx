@@ -39,7 +39,7 @@ const UploadFile = () => {
 
   return (
     <>
-      <fieldset className="fieldset flex flex-col md:flex-row items-start gap-30">
+      <fieldset className="fieldset flex flex-col gap-15 items-center justify-center">
         <div>
           <legend className="fieldset-legend">Pick a file</legend>
           <input
@@ -51,7 +51,7 @@ const UploadFile = () => {
         </div>
         <div>
           <button
-            className="p-2 px-16 border-2 border-gray-300 rounded mt-8 hover:shadow-md"
+            className="p-2 px-16 border-2 border-base-300 rounded mt-8 hover:shadow-md"
             onClick={handleFileUpload}
           >
             Upload

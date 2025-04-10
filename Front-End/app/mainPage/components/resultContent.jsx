@@ -10,7 +10,7 @@ const resultContent = ({
   return (
     <>
       {/* name of each tab group should be unique */}
-      <div className="tabs tabs-box shadow-2xl w-[1050px] min-h-[600px] overflow-auto">
+      <div className="tabs tabs-border shadow-2xl rounded-2xl bg-base-100 w-[1300px] min-h-[650px] overflow-auto">
         <input
           type="radio"
           name="my_tabs_6"
@@ -28,7 +28,7 @@ const resultContent = ({
           aria-label="Model Result"
           defaultChecked
         />
-        <div className="tab-content bg-base-100 border-base-300 p-6 w-full">
+        <div className="tab-content bg-base-100 items-center justify-center p-6 w-[1300px] max-h-[620px]">
           <ResultDisplay 
           loading={loading} 
           showResults={showResults}

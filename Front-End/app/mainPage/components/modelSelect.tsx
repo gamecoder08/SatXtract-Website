@@ -75,95 +75,93 @@ const ModelSelect = ({
     }
   };
 
-return (
-  <>
+  return (
+    <div className="flex flex-row items-start gap-40">
       <div className="dropdown">
-        <div tabIndex={0} role="button" className="btn m-1 px-15 outline-1">
+        <div tabIndex={0} role="button" className="btn py-6 px-15 outline-1">
           Models
         </div>
         <ul
           tabIndex={0}
-          className="dropdown-content menu bg-base-100 rounded-box z-1 w-52 p-2 shadow-xl"
+          className="dropdown-content menu bg-base-100 rounded-b rounded-r w-52 p-2"
         >
           <li>
             <a onClick={() => handleModelSelect("ResNET34-25")}>
-              ResNET34 - 25
+              ResNet34 - 25
             </a>
           </li>
           <li>
             <a onClick={() => handleModelSelect("ResNET34-50")}>
-              ResNET34 - 50
+              ResNet34 - 50
             </a>
           </li>
           <li>
             <a onClick={() => handleModelSelect("ResNET34-75")}>
-              ResNET34 - 75
+              ResNet34 - 75
             </a>
           </li>
           <li>
             <a onClick={() => handleModelSelect("ResNET34-100")}>
-              ResNET34 - 100
+              ResNet34 - 100
             </a>
           </li>
           <li>
             <a onClick={() => handleModelSelect("ResNET50-25")}>
-              ResNET50 - 25
+              ResNet50 - 25
             </a>
           </li>
           <li>
             <a onClick={() => handleModelSelect("ResNET50-50")}>
-              ResNET50 - 50
+              ResNet50 - 50
             </a>
           </li>
           <li>
             <a onClick={() => handleModelSelect("ResNET50-75")}>
-              ResNET50 - 75
+              ResNet50 - 75
             </a>
           </li>
           <li>
             <a onClick={() => handleModelSelect("ResNET50-100")}>
-              ResNET50 - 100
+              ResNet50 - 100
             </a>
           </li>
           <li>
             <a onClick={() => handleModelSelect("ResNET101-25")}>
-              ResNET101 - 25
+              ResNet101 - 25
             </a>
           </li>
           <li>
             <a onClick={() => handleModelSelect("ResNET101-50")}>
-              ResNET101 - 50
+              ResNet101 - 50
             </a>
           </li>
           <li>
             <a onClick={() => handleModelSelect("ResNET101-75")}>
-              ResNET101 - 75
+              ResNet101 - 75
             </a>
           </li>
           <li>
             <a onClick={() => handleModelSelect("ResNET101-100")}>
-              ResNET101 - 100
+              ResNet101 - 100
             </a>
           </li>
         </ul>
       </div>
-      <div className="mt-50">
+      <div className="flex flex-col items-center justify-center">
+        <button
+          className="btn py-5 px-20 border-2 outline-1 border-base-300 hover:shadow-md"
+          onClick={() => {
+            handleRunModel();
+            fetchImages();
+          }} // Trigger the run model function
+        >
+          Test Model
+        </button>
         {selectedModel && (
-          <div className="flex flex-col items-center justify-center mt-5">
-            <p className="mt-4">Selected Model: {selectedModel}</p>
-            <button
-              className="btn mt-4 py-2 px-10 border-2 border-gray-300 hover:shadow-md"
-              onClick={() => {
-                handleRunModel();
-                fetchImages();
-              }} // Trigger the run model function
-            >
-              Test Model
-            </button>
-          </div>
+          <p className="mt-4">Selected Model: {selectedModel}</p>
         )}
       </div>
-    </>
+    </div>
   );
 };
 

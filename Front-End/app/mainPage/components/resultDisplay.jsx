@@ -41,11 +41,11 @@ const ResultDisplay = ({
       //   ? `${baseUrl}${data.predicted_image.replace("..", "")}`
       //   : "";
       const initialImageUrl = data.initial_image
-      ? `${baseUrl}${data.initial_image.replace("..", "")}?timestamp=${timestamp}`
-      : "";
-    const predictedImageUrl = data.predicted_image
-      ? `${baseUrl}${data.predicted_image.replace("..", "")}?timestamp=${timestamp}`
-      : "";
+        ? `${baseUrl}${data.initial_image.replace("..", "")}?timestamp=${timestamp}`
+        : "";
+      const predictedImageUrl = data.predicted_image
+        ? `${baseUrl}${data.predicted_image.replace("..", "")}?timestamp=${timestamp}`
+        : "";
 
       setImages({
         initial_image: initialImageUrl,
@@ -59,10 +59,10 @@ const ResultDisplay = ({
   }
 
   return (
-    <div>
+    <div className="items-center justify-center w-[1300px] max-h-[620px]">
       {/* Loading Animation */}
       {loading && (
-        <div className="loading-animation py-50 rounded-2xl pl-120">
+        <div className="loading-animation rounded-2xl">
           <span className="loading loading-infinity loading-xl"></span>
         </div>
       )}
@@ -70,7 +70,7 @@ const ResultDisplay = ({
       {/* Button to Fetch Images */}
       {!loading && !showResults && (
         <div className="fetch-button">
-          <button className="border-2 rounded-2xl p-2" onClick={fetchImages}>
+          <button className="btn border-2 outline p-5 px-10" onClick={fetchImages}>
             Fetch Results
           </button>
         </div>
@@ -78,15 +78,15 @@ const ResultDisplay = ({
 
       {/* Results Display */}
       {showResults && (
-        <>
-          <figure className="diff aspect-16/9" tabIndex={0}>
+        <div className="flex flex-row gap-8 items-center justify-center">
+          <figure className="diff aspect-16/9 max-w-[1000px] " tabIndex={0}>
             <div className="diff-item-1" role="img">
               {images.initial_image ? (
                 <Image
                   src={images.initial_image}
                   alt="Initial Image"
                   width={500} // Replace with appropriate width
-                  height={500} // Replace with appropriate height
+                  height={400} // Replace with appropriate height
                 />
               ) : (
                 <p></p>
@@ -98,7 +98,7 @@ const ResultDisplay = ({
                   src={images.initial_image}
                   alt="Initial Image"
                   width={500} // Replace with appropriate width
-                  height={500} // Replace with appropriate height
+                  height={400} // Replace with appropriate height
                 />
               ) : (
                 <p></p>
@@ -108,7 +108,7 @@ const ResultDisplay = ({
                   src={images.predicted_image}
                   alt="Predicted Image"
                   width={500} // Replace with appropriate width
-                  height={500}
+                  height={400}
                   style={{ opacity: 0.5 }} // Replace with appropriate height
                 />
               ) : (
@@ -117,8 +117,30 @@ const ResultDisplay = ({
             </div>
             <div className="diff-resizer"></div>
           </figure>
+          <div className="flex flex-col gap-10 rounded-md px-4 py-2 text-center">
+            <div className="flex flex-row gap-3">
+              <p className="text-sm font-semibold border w-6 h-6 bg-[#FFFFFF] text-gray-700"></p>
+              <p className="text-sm font-semibold">Not Classified</p>
+            </div>
+            <div className="flex flex-row gap-3">
+              <p className="text-sm font-semibold border w-6 h-6 bg-[#FF0000] text-gray-700"></p>
+              <p className="text-sm font-semibold">Buildings</p>
+            </div>
+            <div className="flex flex-row gap-3">
+              <p className="text-sm font-semibold border w-6 h-6 bg-[#0000FF] text-gray-700"></p>
+              <p className="text-sm font-semibold">Greenery</p>
+            </div>
+            <div className="flex flex-row gap-3">
+              <p className="text-sm font-semibold border w-6 h-6 bg-[#00FF00] text-gray-700"></p>
+              <p className="text-sm font-semibold">Water</p>
+            </div>
+            <div className="flex flex-row gap-3">
+              <p className="text-sm font-semibold border w-6 h-6 bg-[#808080] text-gray-700"></p>
+              <p className="text-sm font-semibold">Roads</p>
+            </div>
+          </div>
           {error && <p style={{ color: "red" }}>{error}</p>}
-        </>
+        </div>
       )}
     </div>
   );
