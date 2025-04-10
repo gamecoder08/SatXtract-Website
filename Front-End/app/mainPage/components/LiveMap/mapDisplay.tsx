@@ -140,7 +140,7 @@ const MapDisplay = () => {
         <div className="flex flex-col items-start justify-start gap-10">
           {/* Static Map Button */}
           <button
-            className="rounded border-2 border-gray-300 hover:shadow-md p-3 px-21 mt-20"
+            className="rounded border-2 border-base-300 outline hover:shadow-lg p-3 px-21 mt-20"
             onClick={() => {
               getStaticMap();
               sendLocationData();
@@ -148,7 +148,7 @@ const MapDisplay = () => {
           >
             View Map
           </button>
-          <p className="textarea w-[250px] text-md">
+          <p className="textarea border-base-300 w-[250px] text-md">
             {coords
               ? `Longitude: ${coords.lon} Latitude: ${coords.lat}`
               : "Coordinates..."}

@@ -64,6 +64,7 @@ export default function App() {
 
   return (
     <div className="flex flex-col gap-4">
+      <div className="flex flex-row gap-4">
       <input
         type="text"
         className="input pika-single"
@@ -76,6 +77,7 @@ export default function App() {
         placeholder="End date"
         ref={endDatepicker}
       />
+      </div>
       <button
         className="mb-4 p-2 rounded border-2 border-gray-300 mt-2 hover:shadow-md"
         onClick={() => sendDateData(startDate, endDate)}

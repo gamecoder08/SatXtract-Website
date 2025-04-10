@@ -20,8 +20,8 @@ const ModelResult = ({ }) => {
   };
 
   return (
-    <div className="flex flex-col md:flex-row items-start gap-80 mt-35 ml-15">
-      <div className="mt-25">
+    <div className="flex flex-col gap-20 items-center justify-center">
+      <div>
         <ModelSelect setLoading={setLoading} setWaiting={setWaiting} setShowResults={setShowResults}/>
       </div>
       <div className="mr-20">
