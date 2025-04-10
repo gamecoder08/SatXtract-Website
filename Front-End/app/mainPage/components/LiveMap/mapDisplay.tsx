@@ -58,18 +58,12 @@ const MapDisplay = () => {
     }
   };
 
-<<<<<<< HEAD
-<<<<<<< HEAD
   const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key === "Enter") {
       searchLocation();
     }
   };
 
-=======
->>>>>>> 24f670abfae010228c974a26388ef3823617a0a5
-=======
->>>>>>> 24f670abfae010228c974a26388ef3823617a0a5
   const getStaticMap = () => {
     if (!mapRef.current) return;
 
@@ -114,13 +108,7 @@ const MapDisplay = () => {
           placeholder="Enter location name..."
           value={location}
           onChange={(e) => setLocation(e.target.value)}
-<<<<<<< HEAD
-<<<<<<< HEAD
           onKeyDown={handleKeyDown}
-=======
->>>>>>> 24f670abfae010228c974a26388ef3823617a0a5
-=======
->>>>>>> 24f670abfae010228c974a26388ef3823617a0a5
         />
         <button
           className="ml-2 outline-1 shadow-2xs p-2 rounded"
@@ -131,8 +119,6 @@ const MapDisplay = () => {
       </div>
 
       {/* Map Container */}
-<<<<<<< HEAD
-<<<<<<< HEAD
       <div
         ref={mapContainerRef}
         className="flex flex-col md:flex-row items-start relative gap-30 rounded-md"
@@ -152,53 +138,23 @@ const MapDisplay = () => {
           />
         </>
         <div className="flex flex-col items-start justify-start gap-10">
-        {/* Static Map Button */}
-        <button
-          className="rounded border-2 border-gray-300 hover:shadow-md p-3 px-21 mt-20"
-          onClick={() => {
-            getStaticMap();
-            sendLocationData();
-          }}
-        >
-          View Map
-        </button>
-        <p className="textarea w-[250px] text-md">
-          {coords ? `Longitude: ${coords.lon} Latitude: ${coords.lat}` : "Coordinates..."}
-        </p>
+          {/* Static Map Button */}
+          <button
+            className="rounded border-2 border-gray-300 hover:shadow-md p-3 px-21 mt-20"
+            onClick={() => {
+              getStaticMap();
+              sendLocationData();
+            }}
+          >
+            View Map
+          </button>
+          <p className="textarea w-[250px] text-md">
+            {coords
+              ? `Longitude: ${coords.lon} Latitude: ${coords.lat}`
+              : "Coordinates..."}
+          </p>
         </div>
       </div>
-=======
-=======
->>>>>>> 24f670abfae010228c974a26388ef3823617a0a5
-      <div ref={mapContainerRef} className="relative">
-        <Map
-          ref={mapRef}
-          initialViewState={{
-            longitude: 77.412613,
-            latitude: 23.259933,
-            zoom: 3,
-          }}
-          minZoom={1}
-          maxZoom={15}
-          style={{ width: "100%", height: 500 }}
-          mapStyle={MAP_STYLE}
-        />
-      </div>
-
-      {/* Static Map Button */}
-      <button
-        className="mb-4 p-2 rounded mt-2 border-2 border-gray-300 hover:shadow-md"
-        onClick={() => {
-          getStaticMap();
-          sendLocationData();
-        }}
-      >
-        View Map
-      </button>
-<<<<<<< HEAD
->>>>>>> 24f670abfae010228c974a26388ef3823617a0a5
-=======
->>>>>>> 24f670abfae010228c974a26388ef3823617a0a5
     </div>
   );
 };

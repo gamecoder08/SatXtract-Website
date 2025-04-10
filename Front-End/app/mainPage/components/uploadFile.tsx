@@ -39,42 +39,21 @@ const UploadFile = () => {
 
   return (
     <>
-<<<<<<< HEAD
-<<<<<<< HEAD
-      <fieldset className="fieldset flex flex-col md:flex-row items-start gap-60">
-=======
       <fieldset className="fieldset flex flex-col md:flex-row items-start gap-30">
->>>>>>> 24f670abfae010228c974a26388ef3823617a0a5
-=======
-      <fieldset className="fieldset flex flex-col md:flex-row items-start gap-30">
->>>>>>> 24f670abfae010228c974a26388ef3823617a0a5
         <div>
           <legend className="fieldset-legend">Pick a file</legend>
           <input
             type="file"
-<<<<<<< HEAD
-<<<<<<< HEAD
             className="file-input pr-10"
-=======
-            className="file-input"
->>>>>>> 24f670abfae010228c974a26388ef3823617a0a5
-=======
-            className="file-input"
->>>>>>> 24f670abfae010228c974a26388ef3823617a0a5
             onChange={handleFileChange}
           />
           <label className="fieldset-label">Max size 2MB</label>
         </div>
         <div>
-<<<<<<< HEAD
-<<<<<<< HEAD
-          <button className="p-2 px-16 border-2 border-gray-300 rounded mt-8 hover:shadow-md" onClick={handleFileUpload}>
-=======
-          <button className="p-2 px-8 border-2 border-gray-300 rounded mt-8 hover:shadow-md" onClick={handleFileUpload}>
->>>>>>> 24f670abfae010228c974a26388ef3823617a0a5
-=======
-          <button className="p-2 px-8 border-2 border-gray-300 rounded mt-8 hover:shadow-md" onClick={handleFileUpload}>
->>>>>>> 24f670abfae010228c974a26388ef3823617a0a5
+          <button
+            className="p-2 px-16 border-2 border-gray-300 rounded mt-8 hover:shadow-md"
+            onClick={handleFileUpload}
+          >
             Upload
           </button>
         </div>

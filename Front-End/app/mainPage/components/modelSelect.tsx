@@ -1,6 +1,4 @@
 "use client";
-<<<<<<< HEAD
-<<<<<<< HEAD
 import React, { useState } from "react";
 import fetchImages from "../components/resultDisplay";
 
@@ -77,30 +75,14 @@ const ModelSelect = ({
     }
   };
 
-  return (
-    <div className="flex flex-col gap-2 pl-15">
-      <div className="dropdown">
-        <div tabIndex={0} role="button" className="btn m-1 px-20 outline-1">
-=======
-=======
->>>>>>> 24f670abfae010228c974a26388ef3823617a0a5
-import React from "react";
-
-const modelSelect = () => {
-  return (
-    <>
+return (
+  <>
       <div className="dropdown">
         <div tabIndex={0} role="button" className="btn m-1 px-15 outline-1">
-<<<<<<< HEAD
->>>>>>> 24f670abfae010228c974a26388ef3823617a0a5
-=======
->>>>>>> 24f670abfae010228c974a26388ef3823617a0a5
           Models
         </div>
         <ul
           tabIndex={0}
-<<<<<<< HEAD
-<<<<<<< HEAD
           className="dropdown-content menu bg-base-100 rounded-box z-1 w-52 p-2 shadow-xl"
         >
           <li>
@@ -181,42 +163,8 @@ const modelSelect = () => {
           </div>
         )}
       </div>
-    </div>
-  );
-};
-
-export default ModelSelect;
-=======
-=======
->>>>>>> 24f670abfae010228c974a26388ef3823617a0a5
-          className="dropdown-content menu bg-base-100 rounded-box z-1 w-52 p-2 shadow-md"
-        >
-          <li>
-            <a>ResNET34 - 25</a>
-          </li>
-          <li>
-            <a>ResNET50 - 25</a>
-          </li>
-          <li>
-            <a>ResNET34 - 50</a>
-          </li>
-          <li>
-            <a>ResNET50 - 50</a>
-          </li>
-          <li>
-            <a>ResNET34 - 100</a>
-          </li>
-          <li>
-            <a>ResNET50 - 100</a>
-          </li>
-        </ul>
-      </div>
     </>
   );
 };
 
-export default modelSelect;
-<<<<<<< HEAD
->>>>>>> 24f670abfae010228c974a26388ef3823617a0a5
-=======
->>>>>>> 24f670abfae010228c974a26388ef3823617a0a5
+export default ModelSelect;

@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import ModelSelect from "./modelSelect";
 import ResultContent from "./resultContent";
 
-const ModelResult = ({ onModelSelect }) => {
+const ModelResult = ({ }) => {
   const [loading, setLoading] = useState(false);
   const [waiting, setWaiting] = useState(false); // Controls the loading animation
   const [showResults, setShowResults] = useState(false); // Controls when to show results

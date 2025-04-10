@@ -10,17 +10,13 @@ export default function Home() {
       <div className="absolute top-4 right-4">
         <ThemeButton />
       </div>
-      <div className="mt-50">
-<<<<<<< HEAD
-<<<<<<< HEAD
-        <Link href="/mainPage"><button className='btn p-4 px-10 ml-10 border-2 border-gray-200 shadow-md'>Main Page</button></Link>
-=======
-        <Link href="/mainPage">Main Page</Link>
->>>>>>> 24f670abfae010228c974a26388ef3823617a0a5
-=======
-        <Link href="/mainPage">Main Page</Link>
->>>>>>> 24f670abfae010228c974a26388ef3823617a0a5
-      </div>
+<div className="mt-50">
+  <Link href="/mainPage">
+    <button className="btn p-4 px-10 ml-10 border-2 border-gray-200 shadow-md">
+      Main Page
+    </button>
+  </Link>
+</div>
     </main>
   );
 }
