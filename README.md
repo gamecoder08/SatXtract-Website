@@ -37,7 +37,7 @@ npm run dev
 PS: The project is in development mode, thus mutiple bugs and issues may be encountered.
 
 
-## Stack Used
+## Stacks Used
 
 ![Anaconda](https://img.shields.io/badge/Anaconda-%2344A833.svg?style=for-the-badge&logo=anaconda&logoColor=white)
 ![nVIDIA](https://img.shields.io/badge/cuda-000000.svg?style=for-the-badge&logo=nVIDIA&logoColor=green)
