@@ -1,11 +1,13 @@
 "use client";
 import * as React from "react";
 import { useState, useRef } from "react";
-import { Map, MapRef, MapStyle } from "@vis.gl/react-maplibre";
+import { Map, MapRef } from "@vis.gl/react-maplibre";
 import "maplibre-gl/dist/maplibre-gl.css";
 import axios from "axios";
 
-const MAP_STYLE: MapStyle = {
+import { StyleSpecification } from "maplibre-gl";
+
+const MAP_STYLE: StyleSpecification = {
   version: 8,
   sources: {
     esriSatellite: {
