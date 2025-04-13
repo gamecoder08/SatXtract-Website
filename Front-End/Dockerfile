@@ -1,25 +1,25 @@
+# Use official Node.js image
 FROM node:20-alpine
 
+# Set working directory
 WORKDIR /app
 
+# Copy only what's needed for installing dependencies first
 COPY package*.json ./
 COPY tsconfig.json ./
 COPY next.config.ts ./
 
-RUN npm install -g npm-check-updates
-
-RUN ncu -u
+# Install dependencies (no need to install npm or tools globally here)
 RUN npm install
-RUN npm install -g npm@latest
 
+# If you truly need these, install them normally — not globally unless required
+RUN npm install daisyui@latest pikaday js-cookie axios
 
-RUN npm i -D daisyui@latest
-RUN npm i pikaday
-RUN npm i js-cookie
-RUN npm i axios
-
+# Copy rest of the application code
 COPY . .
 
+# Expose port
 EXPOSE 3000
 
-CMD ["npm","run","dev"]
+# Default: start in development mode
+CMD ["npm", "run", "dev"]
