@@ -11,7 +11,6 @@ import sys
 import segmentation_models as sm
 from sklearn.preprocessing import MinMaxScaler
 from tensorflow.keras.models import load_model
-import streamlit as st
 
 
 
@@ -21,8 +20,6 @@ if module_path not in sys.path:
 
 from smooth_tiled_predictions import predict_img_with_smooth_windowing
 
-
-@st.cache_data
 def get_smooth_prediction_for_file(img, _model, n_classes, backbone, patch_size=256):
     """
     Predict on a single file.
