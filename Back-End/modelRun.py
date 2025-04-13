@@ -28,8 +28,8 @@ gray = (128, 128, 128)
 CLASS_LABELS = {
     0: ("Not classified", (255, 255, 255)),  # White
     1: ("Buildings", (255, 0, 0)),           # Red
-    2: ("Greenery", (0, 255, 0)),               # Blue
-    3: ("Water", (0, 0, 255)),            # Green
+    2: ("Greenery", (0, 255, 0)),               # Green
+    3: ("Water", (0, 0, 255)),            # Blue
     4: ("Roads", (128, 128, 128)),           # Gray
 }
 

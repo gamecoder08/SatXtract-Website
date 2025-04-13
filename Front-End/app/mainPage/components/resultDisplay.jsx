@@ -128,11 +128,11 @@ const ResultDisplay = ({
             </div>
             <div className="flex flex-row gap-3">
               <p className="text-sm font-semibold border w-6 h-6 bg-[#0000FF] text-gray-700"></p>
-              <p className="text-sm font-semibold">Greenery</p>
+              <p className="text-sm font-semibold">Water</p>
             </div>
             <div className="flex flex-row gap-3">
               <p className="text-sm font-semibold border w-6 h-6 bg-[#00FF00] text-gray-700"></p>
-              <p className="text-sm font-semibold">Water</p>
+              <p className="text-sm font-semibold">Greenery</p>
             </div>
             <div className="flex flex-row gap-3">
               <p className="text-sm font-semibold border w-6 h-6 bg-[#808080] text-gray-700"></p>
