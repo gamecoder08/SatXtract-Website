@@ -1,11 +1,12 @@
 import ee
-
+import google.auth
 # Initialize Earth Engine
+
+credentials, _ = google.auth.default()
 try:
-    ee.Initialize(project='satxtract')
+    ee.Initialize(credentials,project='satxtract')
 except Exception as e:
-    ee.Authenticate()
-    ee.Initialize(project='satxtract')
+    ee.Initialize(credentials,project='satxtract')
 
 def get_thumb_url(image, vis_params, region):
     """Generate a static thumbnail URL from an EE image."""
