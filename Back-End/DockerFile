@@ -11,7 +11,11 @@ RUN apt-get update && \
     libatlas-base-dev \
     && rm -rf /var/lib/apt/lists/*
 
+
 RUN apt-get update && apt-get install -y libgl1
+RUN apt-get update && apt-get install -y libglib2.0-0 libsm6 libxrender1 libxext6
+
+
 
 # Copy all project files
 COPY . /app
@@ -21,7 +25,7 @@ RUN python3 -m venv /app/osgeo_env
 
 # Install Python dependencies inside the virtual environment
 RUN /app/osgeo_env/bin/pip install --upgrade pip setuptools wheel && \
-    /app/osgeo_env/bin/pip install --no-cache-dir -r requirements.txt
+    /app/osgeo_env/bin/pip install --no-cache-dir --upgrade -r requirements.txt
 
 # Set environment variables
 ENV osgeo_env=/app/osgeo_env
