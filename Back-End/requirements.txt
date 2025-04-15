@@ -25,3 +25,6 @@ scipy==1.9.3
 earthengine-api
 geemap
 huggingface_hub
+Flask
+gunicorn
+flask-cors

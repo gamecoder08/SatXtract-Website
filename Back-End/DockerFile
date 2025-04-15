@@ -1,13 +1,33 @@
-FROM python:3.12.10-slim
+FROM python:3.11-slim
 
 WORKDIR /app
+
+# Install necessary system packages
+RUN apt-get update && \
+    apt-get install -y \
+    python3-venv \
+    build-essential \
+    python3-dev \
+    libatlas-base-dev \
+    && rm -rf /var/lib/apt/lists/*
+
+RUN apt-get update && apt-get install -y libgl1
+
+# Copy all project files
 COPY . /app
 
-RUN pip install --no-cache-dir -r requirements.txt
-RUN pip install --upgrade pip
+# Create a virtual environment
+RUN python3 -m venv /app/osgeo_env
+
+# Install Python dependencies inside the virtual environment
+RUN /app/osgeo_env/bin/pip install --upgrade pip setuptools wheel && \
+    /app/osgeo_env/bin/pip install --no-cache-dir -r requirements.txt
+
+# Set environment variables
+ENV osgeo_env=/app/osgeo_env
+ENV PATH="$osgeo_env/bin:$PATH"
 
 EXPOSE 5000
 
-ENV NAME World
-
-CMD ["python","waitress_server.py"]
+# Run the app
+CMD ["python", "receiveWebData.py"]
