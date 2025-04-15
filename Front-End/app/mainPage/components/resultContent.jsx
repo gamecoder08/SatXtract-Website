@@ -17,7 +17,7 @@ const resultContent = ({
           className="tab"
           aria-label="UHI - Indices"
         />
-        <div className="tab-content tab-disabled bg-base-100 border-base-300 p-6">
+        <div className="tab-content bg-base-100 p-6">
             <UhiDisplay />
         </div>
 

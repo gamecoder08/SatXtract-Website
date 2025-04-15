@@ -3,14 +3,21 @@ from flask_cors import CORS
 from datetime import datetime
 import os
 from modelRun import process_image
-# from gee_utils import fetch_map_data
+from gee_utils import fetch_map_uhi
+
 selectedModel = None
+latitude = None
+longitude = None
+zoom_z = None
+start_date = None
+end_date = None
 
 app = Flask(__name__)
 CORS(app)
 
 @app.route('/api/mapdata', methods=['POST'])
 def mapdata():
+    global latitude, longitude, zoom_z
     data = request.get_json()
     latitude = data.get('lat')
     longitude = data.get('lon')
@@ -92,12 +99,10 @@ def serve_predictions(filename):
 
 @app.route('/api/datedata', methods=['POST'])
 def datedata():
+    global start_date, end_date, latitude, longitude, zoom_z
     data = request.get_json()
     start_date = data.get('startDate')
     end_date = data.get('endDate')
-    latitude = data.get('lat')
-    longitude = data.get('lon')
-    zoom_z = data.get('zoom')
     
     # Parse and format the dates
     start_date_formatted = datetime.fromisoformat(start_date).strftime('%Y-%m-%d')
@@ -106,9 +111,12 @@ def datedata():
     # Process the data as needed
     print(f"Received date data: start_date={start_date_formatted}, end_date={end_date_formatted}")
     
-    # map_data = fetch_map_data(latitude, longitude, zoom_z, start_date, end_date)
+    map_data = fetch_map_uhi(latitude, longitude, zoom_z, start_date, end_date)
 
-    return jsonify({"message": "Date data received successfully"})
+    return jsonify({
+    "message": "Date data received successfully",
+    "map_data": map_data
+}), 200
 
 UPLOAD_FOLDER = '../uploads'
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)

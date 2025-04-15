@@ -1,7 +1,8 @@
 "use client";
 import React from "react";
 import Calender from "./calender";
-import UhiImages from "./uhiImages";
+import UhiMap from "./UHIMap";
+import RealMap from "./RealMap/";
 
 const uhiDisplay = () => {
   return (
@@ -17,13 +18,10 @@ const uhiDisplay = () => {
       </div>
       <figure className="diff aspect-16/9 max-w-[600px]" tabIndex={0}>
         <div className="diff-item-1" role="img">
-          <UhiImages />
+          <RealMap />
         </div>
         <div className="diff-item-2" role="img" tabIndex={0}>
-          <img
-            alt="daisy"
-            src="https://img.daisyui.com/images/stock/photo-1560717789-0ac7c58ac90a-blur.webp"
-          />
+          <UhiMap />
         </div>
         <div className="diff-resizer"></div>
       </figure>

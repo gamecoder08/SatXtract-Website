@@ -1,11 +1,15 @@
+Flask
+gunicorn
+flask-cors
+
 branca==0.6.0
 folium==0.14.0
 geopandas==0.13.0
-keras==2.13.1
+keras
 matplotlib==3.7.1
-numpy==1.23.5
-opencv_python==4.8.1.78
-opencv_python_headless==4.7.0.72
+numpy
+opencv_python
+opencv_python_headless
 pandas==2.0.2
 patchify==0.2.3
 Pillow==10.2.0
@@ -17,7 +21,7 @@ segment_geospatial==0.8.2
 segmentation_models==1.0.1
 Shapely==2.0.1
 split-folders==0.5.1
-tensorflow==2.13.0
+tensorflow
 tqdm==4.65.0
 scipy==1.9.3
 
@@ -25,6 +29,3 @@ scipy==1.9.3
 earthengine-api
 geemap
 huggingface_hub
-Flask
-gunicorn
-flask-cors
