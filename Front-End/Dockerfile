@@ -5,9 +5,9 @@ FROM node:20-alpine
 WORKDIR /app
 
 # Copy only what's needed for installing dependencies first
-COPY package*.json ./
-COPY tsconfig.json ./
-COPY next.config.ts ./
+COPY package.json ./
+
+RUN npm install -g npm@11.3.0
 
 # Install dependencies (no need to install npm or tools globally here)
 RUN npm install
