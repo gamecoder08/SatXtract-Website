@@ -1,4 +1,12 @@
 from gee_utils import fetch_map_uhi
+# import google.auth
+# import ee
+
+# credentials, _ = google.auth.default()
+# try:
+#     ee.Initialize(credentials,project='satxtract')
+# except Exception as e:
+#     ee.Initialize(credentials,project='satxtract')
 
 # Sample coordinates and dates for testing
 latitude = 28.6139   # New Delhi

@@ -10,6 +10,9 @@ export async function POST(request) {
       endDate,
     });
 
+    // Log the data received from the backend
+    console.log('Data received from backend:', response.data);
+
     return NextResponse.json({ message: 'Date data sent successfully', data: response.data });
   } catch (error) {
     console.error('Error sending date data:', error.message);

@@ -1,10 +1,17 @@
-"use client"
+"use client";
 import { useEffect, useRef, useState } from "react";
+import dynamic from "next/dynamic";
 import axios from "axios";
-import Pikaday from "pikaday";
-import "pikaday/css/pikaday.css"; // Ensure you have Pikaday CSS imported
+import "pikaday/css/pikaday.css"; // Import CSS separately
 
-export default function App() {
+// Dynamically import Pikaday with SSR disabled
+import Pikaday from "pikaday";
+
+interface CalenderProps{
+  setUhiData: (data: any) => void;
+}
+
+export default function Calender({setUhiData}: CalenderProps) {
   const startDatepicker = useRef(null);
   const endDatepicker = useRef(null);
   const [startDate, setStartDate] = useState<Date | null>(null);
@@ -53,11 +60,15 @@ export default function App() {
     const endDateFormatted = end.toLocaleDateString('en-CA'); // Format as YYYY-MM-DD
 
     try {
-      await axios.post("/api/sendDateData", {
+      const response = await axios.post("/api/sendDateData", {
         startDate: startDateFormatted,
         endDate: endDateFormatted,
       } as DateData);
       console.log("Date data sent successfully");
+
+      // Log the data received from the backend
+      console.log("Data received from backend:", response.data);
+      setUhiData(response.data);
     } catch (error) {
       console.error("Error sending date data:", error);
     }

@@ -137,6 +137,7 @@ const MapDisplay = () => {
             maxZoom={15}
             style={{ width: "70%", height: 500 }}
             mapStyle={MAP_STYLE}
+            dragPan={true}
           />
         </>
         <div className="flex flex-col items-start justify-start gap-10">

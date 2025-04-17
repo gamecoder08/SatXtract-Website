@@ -3,7 +3,7 @@ from flask_cors import CORS
 from datetime import datetime
 import os
 from modelRun import process_image
-# from gee_utils import fetch_map_uhi
+from gee_utils import fetch_map_uhi
 
 selectedModel = None
 latitude = None
@@ -109,13 +109,22 @@ def datedata():
     end_date_formatted = datetime.fromisoformat(end_date).strftime('%Y-%m-%d')
 
     # Process the data as needed
-    print(f"Received date data: start_date={start_date_formatted}, end_date={end_date_formatted}")
+    print(f"Received date data: start_date={start_date_formatted}, end_date={end_date_formatted},latitude={latitude}, longitude={longitude}, zoom={zoom_z}")
+    # Round latitude and longitude to 4 decimal places
+    if latitude is not None:
+        latitude = round(float(latitude), 4)
+    if longitude is not None:
+        longitude = round(float(longitude), 4)
+    print(f"Received date data: start_date={start_date_formatted}, end_date={end_date_formatted},latitude={latitude}, longitude={longitude}, zoom={zoom_z}")
     
-    # map_data = fetch_map_uhi(latitude, longitude, zoom_z, start_date, end_date)
+    
+    map_data = fetch_map_uhi(latitude, longitude, zoom_z, start_date, end_date)
+    
+    print(map_data)
 
     return jsonify({
     "message": "Date data received successfully",
-    # "map_data": map_data
+    "map_data": map_data
 }), 200
 
 UPLOAD_FOLDER = '../uploads'
