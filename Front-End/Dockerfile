@@ -22,4 +22,4 @@ COPY . .
 EXPOSE 3000
 
 # Default: start in development mode
-CMD ["npm", "run", "dev"]
+CMD ["npm", "run", "dev" ,"--", "-H", "0.0.0.0"]

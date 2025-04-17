@@ -32,7 +32,7 @@ const ResultDisplay = ({
       console.log("Response from internal API:", data);
 
       // Update the state with the image paths
-      const baseUrl = "http://127.0.0.1:5000";
+      const baseUrl = process.env.NEXT_PUBLIC_API_URL;
       const timestamp = new Date().getTime()
       // const initialImageUrl = data.initial_image
       //   ? `${baseUrl}${data.initial_image.replace("..", "")}`

@@ -20,8 +20,11 @@ const UploadFile = () => {
     formData.append("file", file);
 
     try {
+      const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL;
+      console.log("API URL: ", API_BASE_URL);
+
       const response = await axios.post(
-        "http://localhost:5000/upload",
+        `${API_BASE_URL}/upload`,
         formData,
         {
           headers: {

@@ -39,4 +39,4 @@ ENV PATH="$osgeo_env/bin:$PATH"
 EXPOSE 5000
 
 # Run the app
-CMD ["python", "receiveWebData.py"]
+CMD ["python", "receiveWebData.py", "--host=0.0.0.0", "--port=5000"]

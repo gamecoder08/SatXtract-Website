@@ -2,6 +2,7 @@ from flask import Flask, request, jsonify, send_from_directory
 from flask_cors import CORS
 from datetime import datetime
 import os
+import uuid
 from modelRun import process_image
 # from gee_utils import fetch_map_uhi
 
@@ -28,6 +29,12 @@ def mapdata():
 
     return jsonify({"message": "Data received successfully"})
 
+
+
+
+
+
+
 @app.route('/api/selectModel', methods=['POST'])
 def select_model():
     global selectedModel
@@ -37,6 +44,12 @@ def select_model():
     if not selectedModel:
         return jsonify({"error": "No model provided"}), 400
     return jsonify({"message": "Model received successfully"}), 200
+
+
+
+
+
+
 
 @app.route('/api/runModel', methods=['POST'])
 def run_model():
@@ -50,21 +63,27 @@ def run_model():
     # Call the function to process the image with the selected model
     process_image(selectedModel)
 
-    
-
     # Return the file paths
     return jsonify({
         "message": f"Model ran successfully!",
     }), 200
-    
+
+
+
+
+
+
+
+
 @app.route('/api/getResults', methods=['GET'])
 def get_results():
     print("getResults endpoint called")
     # Return the results (e.g., image paths)
     global selectedModel
     # After segmentation, construct the paths for the initial and predicted images
-    uploads_dir = os.path.abspath("../uploads")
-    predictions_dir = os.path.abspath("../prediction")
+    uploads_dir = os.path.abspath("/app/uploads")
+    predictions_dir = os.path.abspath("/app/prediction")
+
 
     # Paths to the initial and predicted images
     sanitized_model_name = "_".join(selectedModel.split())
@@ -81,21 +100,26 @@ def get_results():
         return jsonify({"error": "Images not found"}), 404
     
     return jsonify({
-        "initial_image": f"../uploads/temp_image.png",
-        "predicted_image": f"../prediction/{predicted_image_name}"
+        "initial_image": f"/uploads/temp_image.png",
+        "predicted_image": f"/prediction/{predicted_image_name}"
     }), 200
     
+
 # Serve static files from the uploads directory
 @app.route('/uploads/<path:filename>')
 def serve_uploads(filename):
-    uploads_dir = os.path.abspath("../uploads")
+    uploads_dir = os.path.abspath("uploads")
     return send_from_directory(uploads_dir, filename)
+
+
+
 
 # Serve static files from the prediction directory
 @app.route('/prediction/<path:filename>')
 def serve_predictions(filename):
-    predictions_dir = os.path.abspath("../prediction")
+    predictions_dir = os.path.abspath("prediction")
     return send_from_directory(predictions_dir, filename)
+
 
 @app.route('/api/datedata', methods=['POST'])
 def datedata():
@@ -118,8 +142,10 @@ def datedata():
     # "map_data": map_data
 }), 200
 
-UPLOAD_FOLDER = '../uploads'
+# Use absolute path inside the container
+UPLOAD_FOLDER = '/app/uploads'
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
+
 
 @app.route('/upload', methods=['POST'])
 def upload_file():
@@ -128,11 +154,16 @@ def upload_file():
     file = request.files['file']
     if file.filename == '':
         return jsonify({"message": "No selected file"}), 400
-    if file:
-        file_path = os.path.join(UPLOAD_FOLDER, f"temp_image.png")
-        print(file_path)
-        file.save(file_path)
-        return jsonify({"message": "File uploaded successfully", "file_path": file_path}), 200
+
+    # Create a unique file name using UUID
+    unique_filename = f"{uuid.uuid4().hex}.png"
+    file_path = os.path.join(UPLOAD_FOLDER, unique_filename)
+    print(file_path)
+    file.save(file_path)
+
+    return jsonify({"message": "File uploaded successfully", "file_path": file_path}), 200
+
+
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True, host='0.0.0.0', port=5000)  # listen on all interfaces

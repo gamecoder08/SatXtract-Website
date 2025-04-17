@@ -98,20 +98,32 @@ MODELS = {
     },
 }
 
+
+
+
 def load_model_from_huggingface(repo_id, filename):
     try:
         from huggingface_hub import hf_hub_download
-
+        
+        # Define the cache directory, you can change this as per your needs
+        cache_dir = os.getenv("MODEL_CACHE_DIR", "/app/models")  # Default to '/app/models' in Docker
+        # Ensure the cache directory exists
+        os.makedirs(cache_dir, exist_ok=True)
+        
+        
         model_path = hf_hub_download(
             repo_id=repo_id,
             filename=filename,
-            cache_dir="../models"
+            cache_dir=cache_dir
         )
         model = load_model(model_path, compile=False)
         return model
     except Exception as e:
-        print("Error loading model from Hugging Face")
+        print(f"Error loading model from Hugging Face: {str(e)}")
         return None
+
+
+
 
 def show_prediction(image_path, selected_model):
     #
