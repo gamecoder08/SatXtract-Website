@@ -1,6 +1,7 @@
 "use client";
 import * as React from "react";
-import { Map} from "@vis.gl/react-maplibre";
+import { useState, useRef } from "react";
+import { Map, MapRef } from "@vis.gl/react-maplibre";
 import "maplibre-gl/dist/maplibre-gl.css";
 
 import { StyleSpecification } from "maplibre-gl";
@@ -27,12 +28,18 @@ const MAP_STYLE: StyleSpecification = {
 };
 
 const RealMap = () => {
+  const mapRef = useRef<MapRef>(null);
+    const mapContainerRef = useRef<HTMLDivElement>(null);
 
   return (
-    <div>
+    <div
+    ref={mapContainerRef}
+        className=""
+    >
       {/* Map Container */}
         <>
         <Map
+        ref={mapRef}
   initialViewState={{
     longitude: 77.412613,
     latitude: 23.259933,
@@ -40,8 +47,9 @@ const RealMap = () => {
   }}
   minZoom={1}
   maxZoom={15}
-  style={{ width: "70%", height: 500 }}
+  style={{ width: "100%", height: 500 }}
   mapStyle={MAP_STYLE}
+  dragPan={true}
 />
         </>
       </div>

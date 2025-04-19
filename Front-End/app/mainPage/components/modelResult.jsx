@@ -8,12 +8,12 @@ const ModelResult = ({ }) => {
   const [waiting, setWaiting] = useState(false); // Controls the loading animation
   const [showResults, setShowResults] = useState(false); // Controls when to show results
 
-  // Handles the model selection process
-  const handleModelSelection = () => {
-    setLoading(true); // Start loading animation
+  // // Handles the model selection process
+  // const handleModelSelection = () => {
+  //   setLoading(true); // Start loading animation
 
-    setLoading(false); // Stop loading after a delay (simulate API call)
-  };
+  //   setLoading(false); // Stop loading after a delay (simulate API call)
+  // };
 
   const handleFetchImages = () => {
     setShowResults(true); // Show the results when "Compare" button is clicked
