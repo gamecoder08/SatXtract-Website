@@ -5,7 +5,8 @@ export async function POST(request) {
   const { startDate, endDate } = await request.json();
 
   try {
-    const response = await axios.post('http://localhost:5000/api/datedata', {
+    const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+    const response = await axios.post(`${apiUrl}/api/datedata`, {
       startDate,
       endDate,
     });

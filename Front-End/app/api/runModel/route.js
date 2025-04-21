@@ -7,7 +7,8 @@ export async function POST(request) {
   try {
     console.log(`Forwarding model to backend: ${model}`);
     // Forward the model data to the backend server
-    const response = await axios.post('http://localhost:5000/api/runModel', {
+    const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+    const response = await axios.post(`${apiUrl}/api/runModel`, {
       model,
     });
 

@@ -3,7 +3,8 @@ import { NextResponse } from "next/server";
 export async function GET() {
   try {
     // Fetch results from the Flask backend
-    const response = await fetch("http://127.0.0.1:5000/api/getResults", {
+    const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+    const response = await fetch(`${apiUrl}/api/getResults`, {
       method: "GET",
     });
 
