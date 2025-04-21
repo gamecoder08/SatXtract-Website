@@ -1,41 +1,120 @@
 # SatXtract-Website
 
-To start running the site
 
-1. First run back-end
+## Installation
 
+To use this project, Clone this repository:
+
+```bash
+https://github.com/gamecoder08/SatXtract-Website.git
 ```
+
+1. Open any terminal and navigate to <kbd> /Back-End </kbd> folder and run following command:
+    - This commnad will allow to run back-end connected to frontend constructed on flask on port <kbd>5000</kbd>.
+
+```bash
 cd Back-End
-```
 
-2. Then, Run the main backend file
-
-```
 python receiveWebData.py
 ```
 
-3. Create another terminal instance for front-end
+2. Simultaneously open another terminal and navigate to <kbd> /Front-End </kbd>. Then, run following commands:
+    - <kbd>npm run dev</kbd> will start the development mode in Next.js on port <kbd>3000</kbd>.
 
-```
+
+```bash
 cd Front-End
-```
 
-4. Upon first cloning, first run
-
-```
+# Install all packages declared in package.json file.
 npm init
 ```
 
-or skip to next step
-
-5. Start the Development server
-
-```
+```bash
 npm run dev
 ```
 
 PS: The project is in development mode, thus mutiple bugs and issues may be encountered.
 
+## File Structure
+
+- <kbd> /Back-End</kbd> File structure
+
+```text
++---Back-End
+|   |   gee_utils.py
+|   |   modelRun.py
+|   |   receiveWebData.py
+|   |   tempCodeRunnerFile.py
+|   |   
+|   +---src
+|   |   |   create_rasters.py
+|   |   |   plot.py
+|   |   |   predict.py
+|   |   |   predict_from_folder.py
+|   |   |   predict_orthophotos.py
+|   |   |   prepare_data.py
+|   |   |   prepare_lst_layer.py
+|   |   |   smooth_tiled_predictions.py
+|   |   |   utils.py
+|   |   |   __init__.py
+
+```
+
+- <kbd>Front-End</kbd> File Structure
+
+```text
+|   +---app
+|   |   |   favicon.ico
+|   |   |   globals.css
+|   |   |   layout.tsx
+|   |   |   page.tsx
+|   |   |   
+|   |   +---api
+|   |   |   +---getResults
+|   |   |   |       route.js
+|   |   |   |       
+|   |   |   +---runModel
+|   |   |   |       route.js
+|   |   |   |       
+|   |   |   +---sendDateData
+|   |   |   |       route.js
+|   |   |   |       
+|   |   |   +---sendMapData
+|   |   |   |       route.js
+|   |   |   |       
+|   |   |   \---sendModelData
+|   |   |           route.js
+|   |   |           
+|   |   +---components
+|   |   |       ThemeButton.tsx
+|   |   |       
+|   |   \---mainPage
+|   |       |   page.tsx
+|   |       |   
+|   |       \---components
+|   |           |   calender.tsx
+|   |           |   mapContent.tsx
+|   |           |   modelResult.jsx
+|   |           |   modelSelect.tsx
+|   |           |   resultContent.jsx
+|   |           |   resultDisplay.jsx
+|   |           |   uhiDisplay.tsx
+|   |           |   uhiImages.tsx
+|   |           |   uploadFile.tsx
+|   |           |   
+|   |           \---LiveMap
+|   |                   index.tsx
+|   |                   mapDisplay.tsx
+|   |                   
+|   |   |   .package-lock.json
+```
+
+## Related Links
+
+In this project, use of <kbd>huggingface-models</kbd> involves. All models used in this project are downloaded from huggingface model repository created by @debasishray16.
+
+<kbd>https://huggingface.co/debasishray16/satellite_image_segmentation_ResNet_Models/tree/main</kbd>
+## Deployment
 
 ## Stacks Used
 
