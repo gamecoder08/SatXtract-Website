@@ -4,14 +4,18 @@ import Image from "next/image";
 
 const ResultDisplay = ({
   loading,
+  setLoading,
+  setWaiting,
+  waiting,
   showResults,
   setShowResults,
+  errorState,
+  setErrorState,
 }) => {
   const [images, setImages] = useState({
     initial_image: "",
     predicted_image: "",
   });
-  const [error, setError] = useState(false); // State to track errors
 
   // Function to fetch images
   async function fetchImages() {
@@ -24,7 +28,7 @@ const ResultDisplay = ({
 
       if (!response.ok) {
         console.log("Failed to fetch images");
-        setError(true); // Set error state to true
+        setErrorState(true); // Set error state to true
       }
 
       const data = await response.json();
@@ -50,33 +54,61 @@ const ResultDisplay = ({
         initial_image: initialImageUrl,
         predicted_image: predictedImageUrl,
       });
-      setError(false);
-      setShowResults(true); // Show the results
+      setErrorState(false);
+      setLoading(false);
+      setWaiting(false);
+      setShowResults(true);
     } catch (error) {
+      setErrorState(true); // Set error state to true
+      setLoading(false);
+      setWaiting(false); // Stop the waiting animation
       console.error("Error fetching images:", error);
     }
   }
 
+  const resetProcess = async () => {
+    setLoading(false); // Stop the loading animation
+    setWaiting(true);
+    setShowResults(false); // Reset show results state
+    setErrorState(false); // Reset error state
+  };
+
   return (
     <div className="items-center justify-center w-[1300px] max-h-[620px]">
+      {waiting && !loading && !showResults &&(
+        <div className="flex flex-col rounded-2xl items-center justify-center h-[500px]">
+        <span className="loading loading-ring loading-xl"></span>
+        <a>Waiting for model to run</a>
+      </div>
+      )}
       {/* Loading Animation */}
-      {loading && (
-        <div className="loading-animation rounded-2xl">
+      {loading && !waiting && !showResults &&(
+        <div className=" flex flex-col rounded-2xl items-center justify-center h-[500px]">
           <span className="loading loading-infinity loading-xl"></span>
         </div>
       )}
 
       {/* Button to Fetch Images */}
-      {!loading && !showResults && (
-        <div className="fetch-button">
+      {!loading && !showResults && !waiting && !errorState && (
+        <div className="flex flex-col fetch-button items-center justify-center h-[500px]">
           <button className="btn border-2 outline p-5 px-10" onClick={fetchImages}>
             Fetch Results
           </button>
         </div>
       )}
 
+      {/* Button to Fetch Images */}
+      {!loading && !showResults && !waiting && errorState && (
+        <div className="flex flex-col fetch-button items-center justify-center h-[500px] font-bold gap-5">
+          Error Spotted. Please try again.
+          <button className="btn border-2 outline p-5" onClick={resetProcess}>
+            Reset
+          </button>
+        </div>
+      )}
+
       {/* Results Display */}
-      {showResults && (
+      {showResults && !waiting && !loading && !errorState && (
         <div className="flex flex-row gap-8 items-center justify-center">
           <figure className="diff aspect-16/9 max-w-[1000px] " tabIndex={0}>
             <div className="diff-item-1" role="img">
@@ -138,7 +170,6 @@ const ResultDisplay = ({
               <p className="text-sm font-semibold">Roads</p>
             </div>
           </div>
-          {error && <p style={{ color: "red" }}>{error}</p>}
         </div>
       )}
     </div>

@@ -6,6 +6,19 @@ import numpy as np
 import os
 import tensorflow as tf
 
+# tf.config.set_logical_device_configuration(
+#     tf.config.list_physical_devices('GPU')[0],
+#     [tf.config.LogicalDeviceConfiguration(memory_limit=4096)]
+# )
+
+gpus = tf.config.experimental.list_physical_devices('GPU')
+if gpus:
+    try:
+        for gpu in gpus:
+            tf.config.experimental.set_memory_growth(gpu, True)
+    except RuntimeError as e:
+        print(e)
+
 os.environ["SM_FRAMEWORK"]="tf.keras"
 import sys
 import segmentation_models as sm

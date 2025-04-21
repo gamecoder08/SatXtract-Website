@@ -1,14 +1,13 @@
 import os
+os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'# 0 = all messages, 1 = filter INFO, 2 = filter WARNING, 3 = filter ERROR
+
 import sys
-import time
 from pathlib import Path
 import gc
-import datetime
 import numpy as np
 from folium.plugins import Draw
 from keras.models import load_model
 from PIL import Image
-from datetime import datetime
 import cv2
 import rasterio
 
@@ -17,7 +16,6 @@ if module_path not in sys.path:
     sys.path.append(module_path)
 
 from src.predict import get_smooth_prediction_for_file
-from src.utils import prepare_split_image
 
 white = (255, 255, 255)
 red = (255, 0, 0)

@@ -4,8 +4,13 @@ import ResultDisplay from "./resultDisplay";
 
 const resultContent = ({
   loading,
+  setLoading,
+  setWaiting,
+  waiting,
   showResults,
   setShowResults,
+  errorState,
+  setErrorState,
 }) => {
   return (
     <>
@@ -30,7 +35,12 @@ const resultContent = ({
         />
         <div className="tab-content bg-base-100 items-center justify-center p-6 w-[1300px] max-h-[620px]">
           <ResultDisplay 
-          loading={loading} 
+          loading={loading}
+          setLoading={setLoading}
+          setWaiting={setWaiting}
+          errorState={errorState}
+          setErrorState={setErrorState}
+          waiting={waiting} 
           showResults={showResults}
           setShowResults={setShowResults}
           />
