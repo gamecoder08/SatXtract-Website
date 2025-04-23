@@ -30,6 +30,7 @@ const MapDisplay = () => {
   const mapContainerRef = useRef(null);
   const [location, setLocation] = useState("");
   const [coords, setCoords] = useState(null);
+  const [mapCorners, setMapCorners] = useState(null);
 
   const searchLocation = async () => {
     if (!location) return;
@@ -84,8 +85,41 @@ const MapDisplay = () => {
     window.open(mapUrl, "_blank");
   };
 
-  const sendLocationData = async () => {
+  const getVisibleCorners = () => {
     if (!mapRef.current) return;
+  
+    const bounds = mapRef.current.getBounds();
+  
+    const ne = bounds.getNorthEast(); // Top-right corner
+    const sw = bounds.getSouthWest(); // Bottom-left corner
+
+    const new_ne = [ ne.lat, ne.lng ]; // Top-right corner filtered
+    const new_sw = [ sw.lat, sw.lng ]; // Bottom-left corner filtered
+  
+    const nw = { lat: ne.lat, lon: sw.lng }; // Top-left corner
+    const se = { lat: sw.lat, lon: ne.lng }; // Bottom-right corner
+
+    const new_nw = [ nw.lat, nw.lon ]; // Top-left corner filtered
+    const new_se = [ se.lat, se.lon ]; // Bottom-right corner filtered
+  
+    console.log("Top-Left (NW):", nw);
+    console.log("Top-Right (NE):", ne);
+    console.log("Bottom-Left (SW):", sw);
+    console.log("Bottom-Right (SE):", se);
+
+    const newMapCorners = [
+      [nw.lon, nw.lat], // Top-left corner
+      [sw.lng, sw.lat], // Bottom-left corner
+      [se.lon, se.lat], // Bottom-right corner
+      [ne.lng, ne.lat], // Top-right corner
+    ];
+
+    console.log("Map Corners:", newMapCorners);
+    setMapCorners(newMapCorners);
+  };
+
+  const sendLocationData = async () => {
+    if (!mapRef.current || !mapCorners) return;
 
     const center = mapRef.current.getCenter();
     const zoom = Math.round(mapRef.current.getZoom());
@@ -94,7 +128,7 @@ const MapDisplay = () => {
 
     setTimeout(async () => {
       try {
-        await axios.post("/api/sendMapData", { lat, lon, zoom });
+        await axios.post("/api/sendMapData", { lat, lon, zoom, mapCorners });
         console.log("Data sent successfully");
       } catch (error) {
         console.error(error);
@@ -137,7 +171,7 @@ const MapDisplay = () => {
           }}
           minZoom={1}
           maxZoom={15}
-          style={{ width: "70%", height: 500 }}
+          style={{ width: "100%", height: 500 }}
           mapStyle={MAP_STYLE}
           dragPan={true}
         />
@@ -146,9 +180,9 @@ const MapDisplay = () => {
           <button
             className="rounded border-2 border-base-300 outline hover:shadow-lg p-3 px-21 mt-20"
             onClick={() => {
+              getVisibleCorners();
               getStaticMap();
               sendLocationData();
-              handleDownloadScreenshot();
             }}
           >
             View Map
