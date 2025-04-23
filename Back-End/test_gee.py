@@ -21,6 +21,8 @@ end_date = "2023-01-31"
 # result = fetch_map_uhi_v2(mapCorners, zoom, start_date, end_date)
 result = fetch_map_with_geemap(mapCorners, zoom, start_date, end_date)
 
+# result = fetch_map_uhi_v2(polygon_coords,zoom , start_date, end_date)
+
 # Print the URLs returned
 print("GEE Map URLs:")
 print(result)
