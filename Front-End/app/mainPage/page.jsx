@@ -1,4 +1,5 @@
-import React from "react";
+'use client';
+import React, {useState} from "react";
 import ThemeButton from "../components/ThemeButton";
 import ModelResult from "./components/modelResult";
 import MapContent from "./components/mapContent";
