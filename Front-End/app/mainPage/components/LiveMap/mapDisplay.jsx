@@ -130,6 +130,10 @@ const MapDisplay = () => {
       try {
         await axios.post("/api/sendMapData", { lat, lon, zoom, mapCorners });
         console.log("Data sent successfully");
+        console.log("Map Corners:", mapCorners);
+        console.log("Center Coordinates:", { lat, lon });
+        console.log("Zoom Level:", zoom);
+        console.log("Zoom Level:", typeof zoom);
       } catch (error) {
         console.error(error);
         console.log("Error sending data");

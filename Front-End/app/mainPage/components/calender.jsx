@@ -8,7 +8,7 @@ import { DayPicker, Dropdown } from "react-day-picker";
 // Dynamically import Pikaday with SSR disabled
 const Pikaday = dynamic(() => import("pikaday"), { ssr: false });
 
-const Calender = ({}) => {
+const Calender = ({setUhiData}) => {
   const startDatepicker = useRef(null);
   const endDatepicker = useRef(null);
   // const [startDate, setStartDate] = useState();

@@ -11,8 +11,8 @@ const uhiDisplay = ({
   return (
     <div className="flex flex-row gap-5 justify-center ">
         <Calender setUhiData={setUhiData} />
-      <figure className="aspect-16/9 max-w-[600px]" tabIndex={0}>
-        <div className="w-[600px]" role="img" tabIndex={0}>
+      <figure className="aspect-16/9 max-w-[800px]">
+        <div className="w-[800px]">
           <UhiMap uhiData={uhiData}/>
         </div>
       </figure>

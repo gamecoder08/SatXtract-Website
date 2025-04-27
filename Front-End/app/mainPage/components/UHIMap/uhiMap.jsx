@@ -1,99 +1,26 @@
 "use client";
-import React, { useRef, useEffect, useState } from "react";
-import { Map } from "@vis.gl/react-maplibre";
-import "maplibre-gl/dist/maplibre-gl.css";
+import React from "react";
 
 const UhiMap = ({ uhiData }) => {
-  const mapRef = useRef(null);
-  const [mapStyle, setMapStyle] = useState(null);
-  console.log(uhiData?.lse_map, uhiData?.lst_map, uhiData?.ndvi_map);
+  const BASE_URL = "http://127.0.0.1:5000"; // Flask server base URL
+  const timestamp = new Date().getTime(); // Add timestamp to force reload
 
-  useEffect(() => {
-    if (uhiData) {
-      // Dynamically update the map style with URLs from uhiData
-      const updatedMapStyle = {
-        version: 8,
-        sources: {
-          esriSatellite: {
-            type: "raster",
-            tiles: [
-              "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
-            ],
-            tileSize: 256,
-            attribution: "&copy; Esri, Maxar, Earthstar Geographics",
-          },
-          lseOverlay: {
-            type: "raster",
-            tiles: [uhiData.lse_map],
-            tileSize: 256,
-          },
-          lstOverlay: {
-            type: "raster",
-            tiles: [uhiData.lst_map],
-            tileSize: 256,
-          },
-          ndviOverlay: {
-            type: "raster",
-            tiles: [uhiData.ndvi_map],
-            tileSize: 256,
-          },
-        },
-        layers: [
-          {
-            id: "esriSatellite",
-            type: "raster",
-            source: "esriSatellite",
-          },
-          {
-            id: "lseOverlayLayer",
-            type: "raster",
-            source: "lseOverlay",
-            paint: {
-              "raster-opacity": 0.6, // Adjust transparency
-            },
-          },
-          {
-            id: "lstOverlayLayer",
-            type: "raster",
-            source: "lstOverlay",
-            paint: {
-              "raster-opacity": 0.6,
-            },
-          },
-          {
-            id: "ndviOverlayLayer",
-            type: "raster",
-            source: "ndviOverlay",
-            paint: {
-              "raster-opacity": 0.6,
-            },
-          },
+  if (!uhiData || !uhiData.data || !uhiData.data.map_url) {
+    console.error("Invalid uhiData format.");
+    return <div>Map data not available.</div>;
+  }
 
-        ],
-      };
-
-      setMapStyle(updatedMapStyle);
-    }
-  }, [uhiData]);
+  const mapUrl = `${BASE_URL}${uhiData.data.map_url}?timestamp=${timestamp}`;
+  console.log("Map URL:", mapUrl); // Debugging line
 
   return (
-    <div>
-      {mapStyle ? (
-        <Map
-          ref={mapRef}
-          initialViewState={{
-            longitude: 77.412613,
-            latitude: 23.259933,
-            zoom: 3,
-          }}
-          minZoom={1}
-          maxZoom={15}
-          style={{ width: "100%", height: 500 }}
-          mapStyle={mapStyle}
-        />
-      ) : (
-        <p>Loading map...</p>
-      )}
+    <div className="w-[800px] h-[500px] relative">
+      <iframe
+        src={mapUrl}
+        title="UHI Map"
+        className="w-full h-full border-none"
+        sandbox="allow-scripts allow-same-origin"
+      />
     </div>
   );
 };

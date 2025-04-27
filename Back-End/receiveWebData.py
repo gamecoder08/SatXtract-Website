@@ -3,7 +3,8 @@ from flask_cors import CORS
 from datetime import datetime
 import os
 from modelRun import process_image
-from gee_utils import fetch_map_uhi
+# from gee_utils import fetch_map_uhi
+from gee_utils import fetch_map_with_geemap
 
 selectedModel = None
 latitude = None
@@ -120,16 +121,24 @@ def datedata():
     print(f"Received date data: start_date={start_date_formatted}, end_date={end_date_formatted},latitude={latitude}, longitude={longitude}, zoom={zoom_z}")
     
     
-    map_data = fetch_map_uhi(map_corners, zoom_z, start_date, end_date)
+    # map_data = fetch_map_uhi(map_corners, zoom_z, start_date, end_date)
+    map_data = fetch_map_with_geemap(map_corners, zoom_z, start_date, end_date)
     
     print(map_data)
+    
 
     return jsonify({
     "message": "Date data received successfully",
-    "map_data": map_data,
+    "map_url": f"/uhi_map/{os.path.basename(map_data)}",
     "latitude": latitude,
     "longitude": longitude,
 }), 200
+    
+@app.route('/uhi_map/<path:filename>')
+def serve_map(filename):
+    maps_dir = os.path.abspath("./uhi_map")
+    print("Serving from:", maps_dir)
+    return send_from_directory(maps_dir, filename)
 
 UPLOAD_FOLDER = './uploads'
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)

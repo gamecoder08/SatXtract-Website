@@ -147,7 +147,7 @@ def fetch_map_with_geemap(polygon_coords, start_date, end_date, zoom):
         end_date_ee = ee.Date(end_date)
 
         # Sentinel-2 surface reflectance
-        sentinel = (ee.ImageCollection("COPERNICUS/S2_SR")
+        sentinel = (ee.ImageCollection("COPERNICUS/S2_SR_HARMONIZED")
                     .filterBounds(polygon)
                     .filterDate(start_date_ee, end_date_ee)
                     .filter(ee.Filter.lt('CLOUDY_PIXEL_PERCENTAGE', 10))
@@ -248,6 +248,7 @@ def fetch_map_with_geemap(polygon_coords, start_date, end_date, zoom):
     except Exception as e:
         print(f"Error fetching maps: {e}")
         return None
+
     
 # Example Usage
 polygon_coords = [[79.117499322235, 13.114477924101521], [79.117499322235, 12.347140592974768], [80.47374137862522, 12.347140592974768], [80.47374137862522, 13.114477924101521]]
