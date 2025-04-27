@@ -29,8 +29,23 @@ const MapDisplay = () => {
   const mapRef = useRef(null);
   const mapContainerRef = useRef(null);
   const [location, setLocation] = useState("");
-  const [coords, setCoords] = useState(null);
+  const [coords, setCoords] = useState({ lat: 23.259933, lon: 77.412613 });
   const [mapCorners, setMapCorners] = useState(null);
+  const [zoom, setZoom] = useState(3);
+
+  const handleZoomChange = () => {
+    if (mapRef.current) {
+      const currentZoom = mapRef.current.getZoom();
+      setZoom(Math.round(currentZoom)); // Update zoom state
+    }
+  };
+
+  const handleCenterChange = () => {
+    if (mapRef.current) {
+      const center = mapRef.current.getCenter();
+      setCoords({ lat: center.lat.toFixed(6), lon: center.lng.toFixed(6) }); // Update center coordinates
+    }
+  };
 
   const searchLocation = async () => {
     if (!location) return;
@@ -49,6 +64,7 @@ const MapDisplay = () => {
         zoom: 13,
         essential: true,
       });
+      setZoom(13);
     } else {
       alert("Location not found!");
     }
@@ -57,7 +73,7 @@ const MapDisplay = () => {
   const handleDownloadScreenshot = async () => {
     const res = await fetch("/api/screenshot");
     const data = await res.json();
-  
+
     if (data.url) {
       const link = document.createElement("a");
       link.href = data.url;
@@ -66,17 +82,12 @@ const MapDisplay = () => {
     }
   };
 
-  const handleKeyDown = (event) => {
-    if (event.key === "Enter") {
-      searchLocation();
-    }
-  };
-
   const getStaticMap = () => {
     if (!mapRef.current) return;
 
     const center = mapRef.current.getCenter();
     const zoom = Math.round(mapRef.current.getZoom());
+    setZoom(zoom);
     const lat = center.lat.toFixed(6);
     const lon = center.lng.toFixed(6);
 
@@ -87,21 +98,21 @@ const MapDisplay = () => {
 
   const getVisibleCorners = () => {
     if (!mapRef.current) return;
-  
+
     const bounds = mapRef.current.getBounds();
-  
+
     const ne = bounds.getNorthEast(); // Top-right corner
     const sw = bounds.getSouthWest(); // Bottom-left corner
 
-    const new_ne = [ ne.lat, ne.lng ]; // Top-right corner filtered
-    const new_sw = [ sw.lat, sw.lng ]; // Bottom-left corner filtered
-  
+    const new_ne = [ne.lat, ne.lng]; // Top-right corner filtered
+    const new_sw = [sw.lat, sw.lng]; // Bottom-left corner filtered
+
     const nw = { lat: ne.lat, lon: sw.lng }; // Top-left corner
     const se = { lat: sw.lat, lon: ne.lng }; // Bottom-right corner
 
-    const new_nw = [ nw.lat, nw.lon ]; // Top-left corner filtered
-    const new_se = [ se.lat, se.lon ]; // Bottom-right corner filtered
-  
+    const new_nw = [nw.lat, nw.lon]; // Top-left corner filtered
+    const new_se = [se.lat, se.lon]; // Bottom-right corner filtered
+
     console.log("Top-Left (NW):", nw);
     console.log("Top-Right (NE):", ne);
     console.log("Bottom-Left (SW):", sw);
@@ -151,7 +162,7 @@ const MapDisplay = () => {
           placeholder="Enter location name..."
           value={location}
           onChange={(e) => setLocation(e.target.value)}
-          onKeyDown={handleKeyDown}
+          onKeyDown={(e) => e.key === "Enter" && searchLocation()}
         />
         <button
           className="ml-2 outline-1 shadow-2xs p-2 rounded"
@@ -164,25 +175,35 @@ const MapDisplay = () => {
       {/* Map Container */}
       <div
         ref={mapContainerRef}
-        className="flex flex-col md:flex-row items-start relative gap-30 rounded-md"
+        className="flex flex-col md:flex-row items-start relative gap-20 rounded-md"
       >
         <Map
           ref={mapRef}
           initialViewState={{
-            longitude: 77.412613,
-            latitude: 23.259933,
-            zoom: 3,
+            longitude: coords.lon,
+            latitude: coords.lat,
+            zoom: zoom,
           }}
           minZoom={1}
           maxZoom={15}
           style={{ width: "100%", height: 500 }}
           mapStyle={MAP_STYLE}
           dragPan={true}
+          onZoomEnd={handleZoomChange}
+          onMoveEnd={handleCenterChange}
         />
-        <div className="flex flex-col items-start justify-start gap-10">
+        <div className="flex flex-col items-start justify-start gap-10 mt-20 mr-4">
+          <div className="flex flex-row gap-6 textarea border-base-300 w-[280px] text-md">
+            <p>
+              {coords
+                ? `Longitude: ${coords.lon} Latitude: ${coords.lat}`
+                : "Coordinates..."}
+            </p>
+            <p>Zoom Level: {zoom}</p>
+          </div>
           {/* Static Map Button */}
           <button
-            className="rounded border-2 border-base-300 outline hover:shadow-lg p-3 px-21 mt-20"
+            className="rounded border-2 border-base-300 outline hover:shadow-lg p-3 px-23 "
             onClick={() => {
               getVisibleCorners();
               getStaticMap();
@@ -191,11 +212,6 @@ const MapDisplay = () => {
           >
             View Map
           </button>
-          <p className="textarea border-base-300 w-[250px] text-md">
-            {coords
-              ? `Longitude: ${coords.lon} Latitude: ${coords.lat}`
-              : "Coordinates..."}
-          </p>
         </div>
       </div>
     </div>

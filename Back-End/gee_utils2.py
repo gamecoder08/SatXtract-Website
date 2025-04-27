@@ -2,6 +2,7 @@ import ee
 import geemap
 import google.auth
 from google.oauth2 import service_account
+import os
 # Initialize Earth Engine
 
 
@@ -136,7 +137,7 @@ def fetch_map_uhi_v2(polygon_coords, zoom, start_date, end_date):
         print(f"Error fetching maps: {e}")
         return None
     
-def fetch_map_with_geemap(polygon_coords, start_date, end_date, zoom):
+def fetch_map_with_geemap(polygon_coords, zoom, start_date, end_date):
     """Fetch Normal, LSE, LST, and NDVI maps using geemap."""
     try:
         # Convert polygon coordinates to an Earth Engine geometry
@@ -189,7 +190,7 @@ def fetch_map_with_geemap(polygon_coords, start_date, end_date, zoom):
             }).rename("LST")
 
         # Optionally scale with zoom: higher zoom = more detail (smaller scale)
-        scale = 10 if zoom >= 14 else 30
+        scale = 10 if int(zoom) >= 14 else 30
 
         # Compute LST min/max for visualization
         lst_stats = lst.reduceRegion(
@@ -208,53 +209,77 @@ def fetch_map_with_geemap(polygon_coords, start_date, end_date, zoom):
             return None
 
         # Create a geemap Map
-        m = geemap.Map()
+        mm = geemap.Map(toolbar_ctrl=False, search_control=False, draw_control=False, measure_control=False, fullscreen_control=True)
 
         # Add Sentinel-2 RGB
-        m.addLayer(sentinel, {
+        mm.addLayer(sentinel, {
             'bands': ['B4', 'B3', 'B2'],
             'min': 0, 'max': 3000, 'gamma': 1.2
         }, "Sentinel-2")
 
         # Add NDVI
-        m.addLayer(ndvi, {
+        mm.addLayer(ndvi, {
             'min': -1,
             'max': 1,
             'palette': ['blue', 'white', 'green']
         }, "NDVI")
 
         # Add Emissivity (LSE)
-        m.addLayer(emissivity, {
+        mm.addLayer(emissivity, {
             'min': 0.98,
             'max': 1,
             'palette': ['blue', 'white', 'red']
         }, "Emissivity (LSE)")
 
         # Add LST
-        m.addLayer(lst, {
+        mm.addLayer(lst, {
             'min': lst_min - 5,
             'max': lst_max + 5,
             'palette': ['blue', 'cyan', 'green', 'yellow', 'red']
         }, "Land Surface Temperature (LST)")
 
         # Center the map on the polygon
-        m.centerObject(polygon, zoom)
+        mm.centerObject(polygon, zoom)
 
         # Save the map to an HTML file
-        output_file = "map.html"
-        m.save(output_file)
-        print(f"Map has been saved to {output_file}. Open it in a browser to view.")
+        output_file = "./uhi_map/temp_map.html"
+        mm.to_html(filename=output_file, title='My Map', width='100%', add_layer_control=True) 
+        
+        
+        output_dir = "./uhi_map"
+        os.makedirs(output_dir, exist_ok=True)
+        
+        # Save each layer as an image
+        sentinel_image = os.path.join(output_dir, "sentinel_rgb.png")
+        ndvi_image = os.path.join(output_dir, "ndvi.png")
+        emissivity_image = os.path.join(output_dir, "emissivity.png")
+        lst_image = os.path.join(output_dir, "lst.png")
+
+        mm.to_image(filename=sentinel_image, monitor=1)
+        mm.to_image(filename=ndvi_image, monitor=1)
+        mm.to_image(filename=emissivity_image, monitor=1)
+        mm.to_image(filename=lst_image, monitor=1)
+
+        return {
+            "html_file": output_file,
+            "images": {
+                "sentinel_rgb": sentinel_image,
+                "ndvi": ndvi_image,
+                "emissivity": emissivity_image,
+                "lst": lst_image
+            }
+        }
 
     except Exception as e:
         print(f"Error fetching maps: {e}")
         return None
 
     
-# Example Usage
-polygon_coords = [[79.117499322235, 13.114477924101521], [79.117499322235, 12.347140592974768], [80.47374137862522, 12.347140592974768], [80.47374137862522, 13.114477924101521]]
+# # Example Usage
+# polygon_coords = [[79.117499322235, 13.114477924101521], [79.117499322235, 12.347140592974768], [80.47374137862522, 12.347140592974768], [80.47374137862522, 13.114477924101521]]
 
-start_date = "2023-01-01"
-end_date = "2023-12-31"
-zoom = 12
+# start_date = "2023-01-01"
+# end_date = "2023-12-31"
+# zoom = 12
 
-fetch_map_with_geemap(polygon_coords, start_date, end_date, zoom)
+# fetch_map_with_geemap(polygon_coords, start_date, end_date, zoom)
