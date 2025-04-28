@@ -103,7 +103,7 @@ def load_model_from_huggingface(repo_id, filename):
         model_path = hf_hub_download(
             repo_id=repo_id,
             filename=filename,
-            cache_dir="../models"
+            cache_dir="./models"
         )
         model = load_model(model_path, compile=False)
         return model
@@ -123,7 +123,7 @@ def show_prediction(image_path, selected_model):
     img_array = np.moveaxis(img_array, source=0, destination=2)
 
     # Load model
-    # model = load_model_from_file(Path("../Models/", MODELS[selected_model]["file_name"]))
+    # model = load_model_from_file(Path("./Models/", MODELS[selected_model]["file_name"]))
     model = load_model_from_huggingface("debasishray16/satellite_image_segmentation_ResNet_Models", MODELS[selected_model]["file_name"])
 
     # Get prediction
@@ -184,9 +184,9 @@ def save_segmented_file(segmented_img, source_path, selected_model):
 
 def process_image(selectedModel):
     """Process an image from the uploads folder and feed it to the selected model."""
-    uploads_dir = Path("../uploads/")
+    uploads_dir = Path("./uploads/")
     image_name = "temp_image.png"  # This should be the name of the uploaded image
-    models_dir = Path("../Models")
+    models_dir = Path("./Models")
     uploads_dir.mkdir(parents=True, exist_ok=True)  # Ensure the uploads directory exists
 
     # Get the model details from the MODELS dictionary

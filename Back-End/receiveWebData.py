@@ -3,7 +3,8 @@ from flask_cors import CORS
 from datetime import datetime
 import os
 from modelRun import process_image
-from gee_utils import fetch_map_uhi
+# from gee_utils import fetch_map_uhi
+from gee_utils import fetch_map_with_geemap
 
 selectedModel = None
 latitude = None
@@ -11,20 +12,22 @@ longitude = None
 zoom_z = None
 start_date = None
 end_date = None
+map_corners = None
 
 app = Flask(__name__)
 CORS(app)
 
 @app.route('/api/mapdata', methods=['POST'])
 def mapdata():
-    global latitude, longitude, zoom_z
+    global latitude, longitude, zoom_z, map_corners
     data = request.get_json()
     latitude = data.get('lat')
     longitude = data.get('lon')
     zoom_z = data.get('zoom')
+    map_corners = data.get('mapCorners')
 
     # Process the data as needed
-    print(f"Received data: lat={latitude}, lon={longitude}, zoom={zoom_z}")
+    print(f"Received data: lat={latitude}, lon={longitude}, zoom={zoom_z}, mapCorners={map_corners}")
 
     return jsonify({"message": "Data received successfully"})
 
@@ -63,8 +66,8 @@ def get_results():
     # Return the results (e.g., image paths)
     global selectedModel
     # After segmentation, construct the paths for the initial and predicted images
-    uploads_dir = os.path.abspath("../uploads")
-    predictions_dir = os.path.abspath("../prediction")
+    uploads_dir = os.path.abspath("./uploads")
+    predictions_dir = os.path.abspath("./prediction")
 
     # Paths to the initial and predicted images
     sanitized_model_name = "_".join(selectedModel.split())
@@ -81,25 +84,25 @@ def get_results():
         return jsonify({"error": "Images not found"}), 404
     
     return jsonify({
-        "initial_image": f"../uploads/temp_image.png",
-        "predicted_image": f"../prediction/{predicted_image_name}"
+        "initial_image": f"/uploads/temp_image.png",
+        "predicted_image": f"/prediction/{predicted_image_name}"
     }), 200
     
 # Serve static files from the uploads directory
 @app.route('/uploads/<path:filename>')
 def serve_uploads(filename):
-    uploads_dir = os.path.abspath("../uploads")
+    uploads_dir = os.path.abspath("./uploads")
     return send_from_directory(uploads_dir, filename)
 
 # Serve static files from the prediction directory
 @app.route('/prediction/<path:filename>')
 def serve_predictions(filename):
-    predictions_dir = os.path.abspath("../prediction")
+    predictions_dir = os.path.abspath("./prediction")
     return send_from_directory(predictions_dir, filename)
 
 @app.route('/api/datedata', methods=['POST'])
 def datedata():
-    global start_date, end_date, latitude, longitude, zoom_z
+    global start_date, end_date, latitude, longitude, zoom_z, map_corners
     data = request.get_json()
     start_date = data.get('startDate')
     end_date = data.get('endDate')
@@ -118,16 +121,26 @@ def datedata():
     print(f"Received date data: start_date={start_date_formatted}, end_date={end_date_formatted},latitude={latitude}, longitude={longitude}, zoom={zoom_z}")
     
     
-    map_data = fetch_map_uhi(latitude, longitude, zoom_z, start_date, end_date)
+    # map_data = fetch_map_uhi(map_corners, zoom_z, start_date, end_date)
+    map_data = fetch_map_with_geemap(map_corners, zoom_z, start_date, end_date)
     
     print(map_data)
+    
 
     return jsonify({
     "message": "Date data received successfully",
-    "map_data": map_data
+    "map_url": f"/uhi_map/{os.path.basename(map_data)}",
+    "latitude": latitude,
+    "longitude": longitude,
 }), 200
+    
+@app.route('/uhi_map/<path:filename>')
+def serve_map(filename):
+    maps_dir = os.path.abspath("./uhi_map")
+    print("Serving from:", maps_dir)
+    return send_from_directory(maps_dir, filename)
 
-UPLOAD_FOLDER = '../uploads'
+UPLOAD_FOLDER = './uploads'
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 
 @app.route('/upload', methods=['POST'])
