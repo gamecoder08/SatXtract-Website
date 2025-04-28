@@ -1,4 +1,3 @@
-from gee_utils2 import fetch_map_uhi_v2
 from gee_utils2 import fetch_map_with_geemap
 # import google.auth
 # import ee

@@ -375,7 +375,7 @@ def fetch_map_with_geemap(polygon_coords, zoom, start_date, end_date):
             return None
 
         # Create a geemap Map
-        mm = geemap.Map()
+        mm = geemap.Map(toolbar_ctrl=False, search_control=False, draw_control=False, measure_control=False, fullscreen_control=True)
 
         # Add Sentinel-2 RGB
         mm.addLayer(sentinel, {
@@ -409,7 +409,7 @@ def fetch_map_with_geemap(polygon_coords, zoom, start_date, end_date):
 
         # Save the map to an HTML file
         output_file = "./uhi_map/map.html"
-        mm.save(output_file)
+        mm.to_html(filename=output_file, width='100%', add_layer_control=True) 
         return "map.html"
 
     except Exception as e:
