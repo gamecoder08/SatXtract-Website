@@ -82,6 +82,7 @@ const UhiMap = ({ uhiData }) => {
         <Map
           ref={mapRef}
           initialViewState={{
+            // default map view
             longitude: 77.412613,
             latitude: 23.259933,
             zoom: 3,
