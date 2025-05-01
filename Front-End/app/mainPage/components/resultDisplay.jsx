@@ -97,7 +97,7 @@ const ResultDisplay = ({
         </div>
       )}
 
-      {/* Button to Fetch Images */}
+      {/* Button to Reset states on Error*/}
       {!loading && !showResults && !waiting && errorState && (
         <div className="flex flex-col fetch-button items-center justify-center h-[500px] font-bold gap-5">
           Error Spotted. Please try again.

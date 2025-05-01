@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import ModelSelect from "./modelSelect";
 import ResultContent from "./resultContent";
 
-const ModelResult = ({ }) => {
+const ModelResult = ({scrollTargetRef}) => {
   const [loading, setLoading] = useState(false);
   const [waiting, setWaiting] = useState(true); // Controls the loading animation
   const [showResults, setShowResults] = useState(false); // Controls when to show results
@@ -19,7 +19,7 @@ const ModelResult = ({ }) => {
   return (
     <div className="flex flex-col gap-20 items-center justify-center">
       <div>
-        <ModelSelect setLoading={setLoading} setWaiting={setWaiting} setShowResults={setShowResults} setErrorState={setErrorState}/>
+        <ModelSelect setLoading={setLoading} setWaiting={setWaiting} setShowResults={setShowResults} setErrorState={setErrorState} scrollTargetRef={scrollTargetRef}/>
       </div>
       <div className="mr-20">
         <ResultContent

@@ -9,10 +9,10 @@ from gee_utils2 import fetch_map_with_geemap
 #     ee.Initialize(credentials,project='satxtract')
 
 # Sample coordinates and dates for testing
-latitude = 28.6139   # New Delhi
-longitude = 77.2090
-zoom = 12
-mapCorners=[[79.117499322235, 13.114477924101521], [79.117499322235, 12.347140592974768], [80.47374137862522, 12.347140592974768], [80.47374137862522, 13.114477924101521]]
+latitude = 12.8202   # SRM
+longitude = 80.0438 
+zoom = 14
+mapCorners=[[91.5915647008535, 26.111487645087607], [91.5915647008535, 26.088327584389575], [91.63571701205763, 26.088327584389575], [91.63571701205763, 26.111487645087607]]
 start_date = "2023-01-01"
 end_date = "2023-01-31"
 

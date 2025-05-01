@@ -1,10 +1,12 @@
 'use client';
-import React, {useState} from "react";
+import React, {useRef} from "react";
 import ThemeButton from "../components/ThemeButton";
 import ModelResult from "./components/modelResult";
 import MapContent from "./components/mapContent";
 
 const MainPage = () => {
+  const scrollTargetRef = useRef(null);
+
   return (
     <main className="relative min-h-screen p-4">
       <div>
@@ -18,7 +20,7 @@ const MainPage = () => {
       </div>
       <div className="flex flex-col items-center justify-center mt-30">
         <div className="flex flex-col md:flex-row gap-10 items-center justify-center">
-          <MapContent />
+          <MapContent scrollTargetRef={scrollTargetRef} />
           <div>
             <div className="font-extrabold">Image Selection</div>
             <p className="min-h-[650px] mt-2 w-[400px] text-justify">
@@ -49,7 +51,7 @@ const MainPage = () => {
                 magni natus nemo. Debitis, fugit maxime.
               </p>
             </div>
-            <ModelResult />
+            <ModelResult scrollTargetRef={scrollTargetRef}/>
           </div>
         </div>
       </div>

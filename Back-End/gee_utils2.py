@@ -3,6 +3,7 @@ import geemap
 import google.auth
 from google.oauth2 import service_account
 import os
+import time
 # Initialize Earth Engine
 
 
@@ -149,7 +150,7 @@ def fetch_map_with_geemap(polygon_coords, zoom, start_date, end_date):
 
         # Sentinel-2 surface reflectance
         sentinel = (ee.ImageCollection("COPERNICUS/S2_SR_HARMONIZED")
-                    .filterBounds(polygon)
+                    # .filterBounds(polygon)
                     .filterDate(start_date_ee, end_date_ee)
                     .filter(ee.Filter.lt('CLOUDY_PIXEL_PERCENTAGE', 10))
                     .median())
@@ -190,7 +191,13 @@ def fetch_map_with_geemap(polygon_coords, zoom, start_date, end_date):
             }).rename("LST")
 
         # Optionally scale with zoom: higher zoom = more detail (smaller scale)
-        scale = 10 if int(zoom) >= 14 else 30
+        if int(zoom) >= 14:
+            scale = 10
+        elif int(zoom) > 11 and int(zoom) < 14:
+            scale = 20
+        else:
+            scale = 30
+        # Adjust scale based on zoom level
 
         # Compute LST min/max for visualization
         lst_stats = lst.reduceRegion(
@@ -210,65 +217,59 @@ def fetch_map_with_geemap(polygon_coords, zoom, start_date, end_date):
 
         # Create a geemap Map
         mm = geemap.Map(toolbar_ctrl=False, search_control=False, draw_control=False, measure_control=False, fullscreen_control=True)
+        mm.add_basemap("HYBRID")
+        
+        # nn = geemap.Map(toolbar_ctrl=False, search_control=False, draw_control=False, measure_control=False, fullscreen_control=True)
+    
 
         # Add Sentinel-2 RGB
         mm.addLayer(sentinel, {
             'bands': ['B4', 'B3', 'B2'],
             'min': 0, 'max': 3000, 'gamma': 1.2
-        }, "Sentinel-2")
+        }, "Sentinel-2", True)
 
         # Add NDVI
         mm.addLayer(ndvi, {
             'min': -1,
             'max': 1,
             'palette': ['blue', 'white', 'green']
-        }, "NDVI")
+        }, "NDVI", False)
 
         # Add Emissivity (LSE)
         mm.addLayer(emissivity, {
             'min': 0.98,
             'max': 1,
             'palette': ['blue', 'white', 'red']
-        }, "Emissivity (LSE)")
+        }, "Emissivity (LSE)", False)
 
         # Add LST
         mm.addLayer(lst, {
             'min': lst_min - 5,
             'max': lst_max + 5,
             'palette': ['blue', 'cyan', 'green', 'yellow', 'red']
-        }, "Land Surface Temperature (LST)")
+        }, "Land Surface Temperature (LST)", False)
+        
 
         # Center the map on the polygon
         mm.centerObject(polygon, zoom)
-
-        # Save the map to an HTML file
-        output_file = "./uhi_map/temp_map.html"
-        mm.to_html(filename=output_file, title='My Map', width='100%', add_layer_control=True) 
         
         
-        output_dir = "./uhi_map"
-        os.makedirs(output_dir, exist_ok=True)
+        # Ensure the directory exists
+        output_dir = "./uhi_map/"
+        if not os.path.exists(output_dir):
+            os.makedirs(output_dir)
+            
+        print(scale)
+        print(zoom)
+
+        mm.layer_to_image("Sentinel-2", output="./uhi_map/sentinel.png", region=polygon, scale=scale)
+        # mm.layer_to_image("NDVI", output="./uhi_map/ndvi.png", region=polygon, scale=scale)
+        # mm.layer_to_image("Emissivity (LSE)", output="./uhi_map/lse.png", region=polygon, scale=scale)
+        # mm.layer_to_image("Land Surface Temperature (LST)", output="./uhi_map/lst.png", region=polygon, scale=scale)
         
-        # Save each layer as an image
-        sentinel_image = os.path.join(output_dir, "sentinel_rgb.png")
-        ndvi_image = os.path.join(output_dir, "ndvi.png")
-        emissivity_image = os.path.join(output_dir, "emissivity.png")
-        lst_image = os.path.join(output_dir, "lst.png")
-
-        mm.to_image(filename=sentinel_image, monitor=1)
-        mm.to_image(filename=ndvi_image, monitor=1)
-        mm.to_image(filename=emissivity_image, monitor=1)
-        mm.to_image(filename=lst_image, monitor=1)
-
-        return {
-            "html_file": output_file,
-            "images": {
-                "sentinel_rgb": sentinel_image,
-                "ndvi": ndvi_image,
-                "emissivity": emissivity_image,
-                "lst": lst_image
-            }
-        }
+        output_file = os.path.join(output_dir, "tmap.html")
+        mm.to_html(filename=output_file, width='100%', add_layer_control=True)
+        return "map.html"
 
     except Exception as e:
         print(f"Error fetching maps: {e}")

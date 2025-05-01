@@ -25,7 +25,7 @@ const MAP_STYLE = {
   ],
 };
 
-const MapDisplay = () => {
+const MapDisplay = (scrollTargetRef) => {
   const mapRef = useRef(null);
   const mapContainerRef = useRef(null);
   const [location, setLocation] = useState("");
@@ -61,10 +61,10 @@ const MapDisplay = () => {
 
       mapRef.current?.flyTo({
         center: [parseFloat(lon), parseFloat(lat)],
-        zoom: 13,
+        zoom: 11,
         essential: true,
       });
-      setZoom(13);
+      setZoom(11);
     } else {
       alert("Location not found!");
     }
@@ -104,14 +104,8 @@ const MapDisplay = () => {
     const ne = bounds.getNorthEast(); // Top-right corner
     const sw = bounds.getSouthWest(); // Bottom-left corner
 
-    const new_ne = [ne.lat, ne.lng]; // Top-right corner filtered
-    const new_sw = [sw.lat, sw.lng]; // Bottom-left corner filtered
-
     const nw = { lat: ne.lat, lon: sw.lng }; // Top-left corner
     const se = { lat: sw.lat, lon: ne.lng }; // Bottom-right corner
-
-    const new_nw = [nw.lat, nw.lon]; // Top-left corner filtered
-    const new_se = [se.lat, se.lon]; // Bottom-right corner filtered
 
     console.log("Top-Left (NW):", nw);
     console.log("Top-Right (NE):", ne);
@@ -130,12 +124,13 @@ const MapDisplay = () => {
   };
 
   const sendLocationData = async () => {
-    if (!mapRef.current || !mapCorners) return;
+    if (!mapRef.current) return;
 
     const center = mapRef.current.getCenter();
     const zoom = Math.round(mapRef.current.getZoom());
     const lat = center.lat.toFixed(6);
     const lon = center.lng.toFixed(6);
+    console.log("Sending Map Corners:", mapCorners);
 
     setTimeout(async () => {
       try {
@@ -145,11 +140,23 @@ const MapDisplay = () => {
         console.log("Center Coordinates:", { lat, lon });
         console.log("Zoom Level:", zoom);
         console.log("Zoom Level:", typeof zoom);
+        
+        
       } catch (error) {
         console.error(error);
         console.log("Error sending data");
       }
-    }, 3000);
+    }, 5000);
+  };
+
+  const handleViewMapClick = () => {
+    getVisibleCorners();
+    sendLocationData();
+
+    // Scroll to the target section
+    if (scrollTargetRef.current) {
+      scrollTargetRef.current.scrollIntoView({ behavior: "smooth" });
+    }
   };
 
   return (
@@ -203,12 +210,8 @@ const MapDisplay = () => {
           </div>
           {/* Static Map Button */}
           <button
-            className="rounded border-2 border-base-300 outline hover:shadow-lg p-3 px-23 "
-            onClick={() => {
-              getVisibleCorners();
-              getStaticMap();
-              sendLocationData();
-            }}
+            className="rounded border-2 border-base-300 outline hover:shadow-lg p-3 px-23 tooltip tooltip-info tooltip-bottom" data-tip="Zoom between 8 and 12 is recommended"
+            onClick={handleViewMapClick}
           >
             View Map
           </button>
