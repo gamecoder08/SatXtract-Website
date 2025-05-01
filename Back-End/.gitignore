@@ -1,3 +1,9 @@
 satxtract-412cba70a931.json
 models/
 // # Ignore the models directory
+
+uploads/
+// # Ignore the uploads directory
+
+prediction/
+// # Ignore the prediction directory
