@@ -19,17 +19,17 @@ const resultContent = ({
         <input
           type="radio"
           name="my_tabs_6"
-          className="tab"
+          className="tab w-[650px]"
           aria-label="UHI - Indices"
         />
-        <div className="tab-content bg-base-100 p-6">
+        <div className="tab-content bg-base-100">
             <UhiDisplay />
         </div>
 
         <input
           type="radio"
           name="my_tabs_6"
-          className="tab"
+          className="tab w-[650px]"
           aria-label="Model Result"
           defaultChecked
         />

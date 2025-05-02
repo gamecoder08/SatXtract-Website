@@ -137,7 +137,6 @@ def datedata():
 @app.route('/uhi_map/<path:filename>')
 def serve_map(filename):
     maps_dir = os.path.abspath("./uhi_map")
-    print("Serving from:", maps_dir)
     return send_from_directory(maps_dir, filename)
 
 UPLOAD_FOLDER = './uploads'

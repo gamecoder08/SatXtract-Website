@@ -3,7 +3,7 @@
 Code to allocate more space in WSL from storage as V-memory:
 
 ```
-sudo fallocate -l 16G /swapfile
+sudo fallocate -l 32G /swapfile
 sudo chmod 600 /swapfile
 sudo mkswap /swapfile
 sudo swapon /swapfile

@@ -11,7 +11,7 @@ const mapContent = () => {
         <input
           type="radio"
           name="my_tabs_6"
-          className="tab"
+          className="tab w-[650px]"
           aria-label="Live Map"
         />
         <div className="tab-content tab-active bg-base-100 mx-2 p-6 w-maplibregl-interactive rounded-2xl justify-between items-center">
@@ -21,7 +21,7 @@ const mapContent = () => {
         <input
           type="radio"
           name="my_tabs_6"
-          className="tab"
+          className="tab w-[650px]"
           aria-label="Upload Image"
           defaultChecked
         />

@@ -7,14 +7,15 @@ from google.oauth2 import service_account
 
 # Replace with your service account email and the path to your key file
 service_account_email = 'satxtract-service@satxtract.iam.gserviceaccount.com'
-key_file = '/mnt/d/DevFx Hub/Programming/Projects/SatXtract-website/Back-End/satxtract-412cba70a931.json'
+# key_file = '/mnt/d/DevFx Hub/Programming/Projects/SatXtract-website/Back-End/satxtract-412cba70a931.json'
+key_file = '../Back-End/satxtract-412cba70a931.json'
 
 # # Define the required scopes
 # scopes = ['https://www.googleapis.com/auth/earthengine']
 
 # Create credentials using the service account and scopes
 credentials = service_account.Credentials.from_service_account_file(
-    '/mnt/d/DevFx Hub/Programming/Projects/SatXtract-website/Back-End/satxtract-412cba70a931.json',
+    '../Back-End/satxtract-412cba70a931.json',
     scopes=['https://www.googleapis.com/auth/cloud-platform']
 )
 
@@ -306,6 +307,7 @@ def get_map_url(image, vis_params):
 def fetch_map_with_geemap(polygon_coords, zoom, start_date, end_date):
     """Fetch Normal, LSE, LST, and NDVI maps using geemap."""
     try:
+        zoom = zoom + 2
         # Convert polygon coordinates to an Earth Engine geometry
         polygon = ee.Geometry.Polygon(polygon_coords)
 
@@ -376,6 +378,8 @@ def fetch_map_with_geemap(polygon_coords, zoom, start_date, end_date):
 
         # Create a geemap Map
         mm = geemap.Map(toolbar_ctrl=False, search_control=False, draw_control=False, measure_control=False, fullscreen_control=True)
+        
+        mm.add_basemap("HYBRID")
 
         # Add Sentinel-2 RGB
         mm.addLayer(sentinel, {
@@ -406,6 +410,11 @@ def fetch_map_with_geemap(polygon_coords, zoom, start_date, end_date):
 
         # Center the map on the polygon
         mm.centerObject(polygon, zoom)
+        
+        mm.layer_to_image("Sentinel-2", output="./uploads/temp_image.png", region=polygon, scale=scale)
+        mm.layer_to_image("NDVI", output="./uhi_map/ndvi.png", region=polygon, scale=scale)
+        mm.layer_to_image("Emissivity (LSE)", output="./uhi_map/lse.png", region=polygon, scale=scale)
+        mm.layer_to_image("Land Surface Temperature (LST)", output="./uhi_map/lst.png", region=polygon, scale=scale)
 
         # Save the map to an HTML file
         output_file = "./uhi_map/map.html"

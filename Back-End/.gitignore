@@ -3,3 +3,9 @@ models/
 __pycache__
 Back-End/__pycache__/
 // # Ignore the models directory
+
+uploads/
+// # Ignore the uploads directory
+
+prediction/
+// # Ignore the prediction directory

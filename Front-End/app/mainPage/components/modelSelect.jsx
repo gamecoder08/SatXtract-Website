@@ -1,7 +1,7 @@
 'use client';
 import React, { useState } from "react";
 
-const ModelSelect = ({ setLoading, setWaiting, setShowResults, setErrorState }) => {
+const ModelSelect = ({ setLoading, setWaiting, setShowResults, setErrorState, scrollTargetRef }) => {
   const [selectedModel, setSelectedModel] = useState("");
 
   const handleModelSelect = async (model) => {
@@ -69,7 +69,7 @@ const ModelSelect = ({ setLoading, setWaiting, setShowResults, setErrorState }) 
         setWaiting(false);
         setErrorState(false); // Reset error state
         setShowResults(false); // Hide results initially
-     // Fetch images after running the model
+        // Fetch images after running the model
       } else {
         setLoading(false);
         setWaiting(false);
@@ -85,74 +85,101 @@ const ModelSelect = ({ setLoading, setWaiting, setShowResults, setErrorState }) 
   };
 
   return (
-    <div className="flex flex-row items-start gap-40">
+    <div className="flex flex-row items-start gap-40 " ref={scrollTargetRef}>
       <div className="dropdown">
-        <div tabIndex={0} role="button" className="btn py-6 px-15 outline-1">
+        <div tabIndex={0} role="button" className="btn py-5 px-15 outline-1">
           Models
         </div>
         <ul
           tabIndex={0}
-          className="dropdown-content menu bg-base-100 rounded-b rounded-r w-52 p-2"
+          className="dropdown-content menu bg-base-100 rounded-b mt-2 rounded-r w-60 p-2 px-4 shadow-lg"
         >
           <li>
             <a onClick={() => handleModelSelect("ResNET34-25")}>
-              ResNet34 - 25
-            </a>
-          </li>
-          <li>
-            <a onClick={() => handleModelSelect("ResNET34-50")}>
-              ResNet34 - 50
-            </a>
-          </li>
-          <li>
-            <a onClick={() => handleModelSelect("ResNET34-75")}>
-              ResNet34 - 75
-            </a>
-          </li>
-          <li>
-            <a onClick={() => handleModelSelect("ResNET34-100")}>
-              ResNet34 - 100
-            </a>
-          </li>
-          <li>
-            <a onClick={() => handleModelSelect("ResNET50-25")}>
-              ResNet50 - 25
-            </a>
-          </li>
-          <li>
-            <a onClick={() => handleModelSelect("ResNET50-50")}>
-              ResNet50 - 50
+              Low Resolution Input
             </a>
           </li>
           <li>
             <a onClick={() => handleModelSelect("ResNET50-75")}>
-              ResNet50 - 75
-            </a>
-          </li>
-          <li>
-            <a onClick={() => handleModelSelect("ResNET50-100")}>
-              ResNet50 - 100
-            </a>
-          </li>
-          <li>
-            <a onClick={() => handleModelSelect("ResNET101-25")}>
-              ResNet101 - 25
-            </a>
-          </li>
-          <li>
-            <a onClick={() => handleModelSelect("ResNET101-50")}>
-              ResNet101 - 50
-            </a>
-          </li>
-          <li>
-            <a onClick={() => handleModelSelect("ResNET101-75")}>
-              ResNet101 - 75
+              Medium Resolution Input
             </a>
           </li>
           <li>
             <a onClick={() => handleModelSelect("ResNET101-100")}>
-              ResNet101 - 100
+              High Resolution Input (Recommeded for Live Map)
             </a>
+          </li>
+          <li>
+            <div className="dropdown dropdown-right">
+              <div tabIndex={0} className="flex flex-row">
+              <p className="font-bold">Advanced Models :- </p>
+              </div>
+              <ul
+                tabIndex={0}
+                className="dropdown-content menu bg-base-100 rounded-b rounded-box z-1 w-52 p-2 shadow-lg"
+              >
+                <li>
+                  <a onClick={() => handleModelSelect("ResNET34-25")}>
+                    ResNet34 - 25
+                  </a>
+                </li>
+                <li>
+                  <a onClick={() => handleModelSelect("ResNET34-50")}>
+                    ResNet34 - 50
+                  </a>
+                </li>
+                <li>
+                  <a onClick={() => handleModelSelect("ResNET34-75")}>
+                    ResNet34 - 75
+                  </a>
+                </li>
+                <li>
+                  <a onClick={() => handleModelSelect("ResNET34-100")}>
+                    ResNet34 - 100
+                  </a>
+                </li>
+                <li>
+                  <a onClick={() => handleModelSelect("ResNET50-25")}>
+                    ResNet50 - 25
+                  </a>
+                </li>
+                <li>
+                  <a onClick={() => handleModelSelect("ResNET50-50")}>
+                    ResNet50 - 50
+                  </a>
+                </li>
+                <li>
+                  <a onClick={() => handleModelSelect("ResNET50-75")}>
+                    ResNet50 - 75
+                  </a>
+                </li>
+                <li>
+                  <a onClick={() => handleModelSelect("ResNET50-100")}>
+                    ResNet50 - 100
+                  </a>
+                </li>
+                <li>
+                  <a onClick={() => handleModelSelect("ResNET101-25")}>
+                    ResNet101 - 25
+                  </a>
+                </li>
+                <li>
+                  <a onClick={() => handleModelSelect("ResNET101-50")}>
+                    ResNet101 - 50
+                  </a>
+                </li>
+                <li>
+                  <a onClick={() => handleModelSelect("ResNET101-75")}>
+                    ResNet101 - 75
+                  </a>
+                </li>
+                <li>
+                  <a onClick={() => handleModelSelect("ResNET101-100")}>
+                    ResNet101 - 100
+                  </a>
+                </li>
+              </ul>
+            </div>
           </li>
         </ul>
       </div>
