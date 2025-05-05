@@ -1,5 +1,7 @@
 satxtract-412cba70a931.json
 models/
+__pycache__
+Back-End/__pycache__/
 // # Ignore the models directory
 
 uploads/
