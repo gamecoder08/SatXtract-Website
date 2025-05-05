@@ -118,6 +118,7 @@ const ResultDisplay = ({
                   alt="Initial Image"
                   width={500} // Replace with appropriate width
                   height={400} // Replace with appropriate height
+                  className="rounded-md"                
                 />
               ) : (
                 <p></p>
@@ -130,6 +131,7 @@ const ResultDisplay = ({
                   alt="Initial Image"
                   width={500} // Replace with appropriate width
                   height={400} // Replace with appropriate height
+                  className="rounded-md" 
                 />
               ) : (
                 <p></p>
@@ -141,6 +143,7 @@ const ResultDisplay = ({
                   width={500} // Replace with appropriate width
                   height={400}
                   style={{ opacity: 0.5 }} // Replace with appropriate height
+                  className="rounded-md" 
                 />
               ) : (
                 <p></p>

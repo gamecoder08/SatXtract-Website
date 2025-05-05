@@ -185,7 +185,7 @@ def save_segmented_file(segmented_img, source_path, selected_model):
 def process_image(selectedModel):
     """Process an image from the uploads folder and feed it to the selected model."""
     uploads_dir = Path("./uploads/")
-    image_name = "temp_image.png"  # This should be the name of the uploaded image
+    image_name = "input_image.png"  # This should be the name of the uploaded image
     models_dir = Path("./Models")
     uploads_dir.mkdir(parents=True, exist_ok=True)  # Ensure the uploads directory exists
 

@@ -1,51 +1,15 @@
 "use client";
-import React, { useEffect, useRef, useState } from "react";
+import React, {useState } from "react";
 import axios from "axios";
-import dynamic from "next/dynamic";
 import "pikaday/css/pikaday.css"; // Import CSS separately
-import { DayPicker, Dropdown, Month } from "react-day-picker";
-
-// Dynamically import Pikaday with SSR disabled
-const Pikaday = dynamic(() => import("pikaday"), { ssr: false });
+import { DayPicker } from "react-day-picker";
+import ErrorMessage from "./errorMessage";
 
 const Calender = ({setUhiData, setUhiLoading, setUhiError, setUhiWaiting}) => {
-  const startDatepicker = useRef(null);
-  const endDatepicker = useRef(null);
-  // const [startDate, setStartDate] = useState();
-  // const [endDate, setEndDate] = useState();
+
   const [startdate, setstartDate] = useState();
   const [enddate, setendDate] = useState();
-  // useEffect(() => {
-  //   if (!Pikaday) return;
-
-  //   const today = new Date();
-  //   const startPicker = new Pikaday({
-  //     field: startDatepicker.current,
-  //     minDate: new Date(2015, 0, 1), // January 1, 2015
-  //     maxDate: today,
-  //     onSelect: function (date) {
-  //       console.log("Start date selected:", date);
-  //       setStartDate(date);
-  //       endPicker.setMinDate(date);
-  //     },
-  //   });
-
-  //   const endPicker = new Pikaday({
-  //     field: endDatepicker.current,
-  //     minDate: new Date(2015, 0, 1),
-  //     maxDate: today,
-  //     onSelect: function (date) {
-  //       console.log("End date selected:", date);
-  //       setEndDate(date);
-  //       startPicker.setMaxDate(date);
-  //     },
-  //   });
-
-  //   return () => {
-  //     startPicker.destroy();
-  //     endPicker.destroy();
-  //   };
-  // }, [startDate, endDate]);
+  const [showErrorAlert, setErrorShowAlert] = useState(false);
 
   const sendDateData = async (start, end) => {
     if(!start || !end) return;
@@ -81,16 +45,17 @@ const Calender = ({setUhiData, setUhiLoading, setUhiError, setUhiWaiting}) => {
       setUhiError(true);
       setUhiLoading(false);
       setUhiWaiting(false);
+      setErrorShowAlert(true); // Show error alert
+      setTimeout(() => setErrorShowAlert(false), 3000); // Hide after 3 seconds
     }
   };
 
   const today = new Date();
-  const currentDate = today.getDate();
   const currentMonth = today.getMonth() + 1; // Months are zero-indexed
   const currentYear = today.getFullYear();
 
   return (
-    <div className="flex flex-col gap-4">
+    <div className="flex flex-col gap-4 max-h-[150px]">
       <div className="flex flex-row gap-4">
           <div>
             <button popoverTarget="rdp-popover1" className="input input-border justify-center" style={{ anchorName: "--rdp", minWidth: "150px" }}>
@@ -116,6 +81,14 @@ const Calender = ({setUhiData, setUhiLoading, setUhiError, setUhiWaiting}) => {
       >
         View UHI
       </button>
+      {showErrorAlert && (
+              <div className="fixed top-4 left-1/2 transform -translate-x-1/2 z-50 w-full max-w-md ">
+                <ErrorMessage
+                  duration={5000}
+                  onClose={() => setShowErrorAlert(false)} // ensures it unmounts
+                />
+              </div>
+            )}
     </div>
   );
 };

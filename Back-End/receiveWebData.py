@@ -71,8 +71,8 @@ def get_results():
 
     # Paths to the initial and predicted images
     sanitized_model_name = "_".join(selectedModel.split())
-    initial_image_path = os.path.join(uploads_dir, f"temp_image.png")
-    predicted_image_name = f"temp_image_{sanitized_model_name}.png"
+    initial_image_path = os.path.join(uploads_dir, f"input_image.png")
+    predicted_image_name = f"input_image_{sanitized_model_name}.png"
     predicted_image_path = os.path.join(predictions_dir, predicted_image_name)
     
     print(f"Initial image path: {initial_image_path}")
@@ -84,7 +84,7 @@ def get_results():
         return jsonify({"error": "Images not found"}), 404
     
     return jsonify({
-        "initial_image": f"/uploads/temp_image.png",
+        "initial_image": f"/uploads/input_image.png",
         "predicted_image": f"/prediction/{predicted_image_name}"
     }), 200
     
@@ -92,13 +92,13 @@ def get_results():
 @app.route('/uploads/<path:filename>')
 def serve_uploads(filename):
     uploads_dir = os.path.abspath("./uploads")
-    return send_from_directory(uploads_dir, filename)
+    return send_from_directory(uploads_dir, filename, as_attachment=True)
 
 # Serve static files from the prediction directory
 @app.route('/prediction/<path:filename>')
 def serve_predictions(filename):
     predictions_dir = os.path.abspath("./prediction")
-    return send_from_directory(predictions_dir, filename)
+    return send_from_directory(predictions_dir, filename, as_attachment=True)
 
 @app.route('/api/datedata', methods=['POST'])
 def datedata():
@@ -125,19 +125,24 @@ def datedata():
     map_data = fetch_map_with_geemap(map_corners, zoom_z, start_date, end_date)
     
     print(map_data)
+    print(f"Backend map_url: {map_data.get('map_url')}")
     
 
     return jsonify({
-    "message": "Date data received successfully",
-    "map_url": f"/uhi_map/{os.path.basename(map_data)}",
-    "latitude": latitude,
-    "longitude": longitude,
-}), 200
+        "message": "Date data received successfully",
+        # "map_url": map_data.get("map_url"),
+        "sentinel_image_url": map_data.get("sentinel_image_url"),
+        "ndvi_image_url": map_data.get("ndvi_image_url"),
+        "lse_image_url": map_data.get("lse_image_url"),
+        "lst_image_url": map_data.get("lst_image_url"),
+        "latitude": latitude,
+        "longitude": longitude,
+    }), 200
     
 @app.route('/uhi_map/<path:filename>')
 def serve_map(filename):
     maps_dir = os.path.abspath("./uhi_map")
-    return send_from_directory(maps_dir, filename)
+    return send_from_directory(maps_dir, filename, as_attachment=True)
 
 UPLOAD_FOLDER = './uploads'
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
@@ -150,7 +155,7 @@ def upload_file():
     if file.filename == '':
         return jsonify({"message": "No selected file"}), 400
     if file:
-        file_path = os.path.join(UPLOAD_FOLDER, f"temp_image.png")
+        file_path = os.path.join(UPLOAD_FOLDER, f"input_image.png")
         print(file_path)
         file.save(file_path)
         return jsonify({"message": "File uploaded successfully", "file_path": file_path}), 200

@@ -1,8 +1,14 @@
 import React, { useState } from "react";
 import axios from "axios";
+import SuccessMessage from "./successMessage";
+import ErrorMessage from "./errorMessage";
+import AlertMessage from "./alertMessage";
 
 const UploadFile = () => {
   const [file, setFile] = useState(null);
+  const [showSuccessAlert, setShowSuccessAlert] = useState(false);
+  const [showErrorAlert, setErrorShowAlert] = useState(false);
+  const [showAlert, setShowAlert] = useState(false);
 
   const handleFileChange = (event) => {
     if (event.target.files && event.target.files[0]) {
@@ -12,7 +18,7 @@ const UploadFile = () => {
 
   const handleFileUpload = async () => {
     if (!file) {
-      alert("Please select a file first!");
+      setShowAlert(true);
       return;
     }
 
@@ -29,11 +35,11 @@ const UploadFile = () => {
           },
         }
       );
-      alert("File uploaded successfully!");
+      setShowSuccessAlert(true);
       console.log(response.data);
     } catch (error) {
       console.error("Error uploading file:", error);
-      alert("Error uploading file");
+      setErrorShowAlert(true);
     }
   };
 
@@ -58,6 +64,30 @@ const UploadFile = () => {
           </button>
         </div>
       </fieldset>
+      {showSuccessAlert && (
+              <div className="fixed top-4 left-1/2 transform -translate-x-1/2 z-50 w-full max-w-md ">
+                <SuccessMessage
+                  duration={5000}
+                  onClose={() => setShowSuccessAlert(false)} // ensures it unmounts
+                />
+              </div>
+            )}
+      {showErrorAlert && (
+        <div className="fixed top-4 left-1/2 transform -translate-x-1/2 z-50 w-full max-w-md ">
+          <ErrorMessage
+            duration={5000}
+            onClose={() => setShowErrorAlert(false)} // ensures it unmounts
+          />
+        </div>
+      )}
+      {showAlert && (
+        <div className="fixed top-4 left-1/2 transform -translate-x-1/2 z-50 w-full max-w-md ">
+          <AlertMessage
+            duration={5000}
+            onClose={() => setShowAlert(false)} // ensures it unmounts
+          />
+        </div>
+      )}
     </>
   );
 };
