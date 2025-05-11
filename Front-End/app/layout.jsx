@@ -1,6 +1,5 @@
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import { cookies } from "next/headers";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -17,15 +16,11 @@ export const metadata = {
 };
 
 export default async function RootLayout({ children }) {
-  // ✅ Read theme from cookies on the server
-  const cookieStore = await cookies();
-  const theme = cookieStore.get("theme")?.value || "light"; // Default to "light"
 
   return (
-    <html lang="en" data-theme={theme}>
+    <html lang="en" data-theme="night">
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-        style={theme === "light" ? { backgroundColor: "#ffffff" } : {}}
       >
         {children}
       </body>

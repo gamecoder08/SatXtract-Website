@@ -9,6 +9,6 @@ sudo mkswap /swapfile
 sudo swapon /swapfile
 ```
 
-where 16G refers to 16Gigs of storage tranfer as vram. Number can be adjusted as needed. "swapfile" is a file name for this instance. Name changes can be done to create multiple more instances.
+where 32G refers to 32Gigs of storage tranfer as vram. Number can be adjusted as needed. "swapfile" is a file name for this instance. Name changes can be done to create multiple more instances.
 
 Note: This additional allocation is only temporary; and need to be done again after a device restart.

@@ -1,0 +1,19 @@
+.carousel-track {
+  display: flex;
+  width: max-content;
+  animation: scroll-left 30s linear infinite;
+}
+
+.carousel-track > div {
+  flex: 0 0 auto;
+  margin-right: 2rem; /* Space between items */
+}
+
+@keyframes scroll-left {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
